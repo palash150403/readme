@@ -25,8 +25,29 @@ alias kubectl="minikube kubectl --"
 6. Make Kustomization Files
 
 ```
+vim kustomization.yaml
+```
+```
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - github.com/ansible/awx-operator/config/default?ref=2.19.1
+images:
+  - name: quay.io/ansible/awx-operator
+    newTag: 2.19.1
+namespace: awx
+```
+Use latest tags from https://github.com/ansible/awx-operator/tags
+
+```
+kubectl apply -k .
+```
+
+```
 vim awx-server.yaml
 ```
+
 ```
 ---
 apiVersion: awx.ansible.com/v1beta1
@@ -36,6 +57,10 @@ metadata:
 spec:
   service_type: nodeport
 ```
+```
+vim kustomization.yaml
+```
+add - awx-server.yaml in file
 ```
 ---
 apiVersion: kustomize.config.k8s.io/v1beta1
@@ -48,7 +73,6 @@ images:
     newTag: 2.19.1
 namespace: awx
 ```
-Use latest tags from https://github.com/ansible/awx-operator/tags
 
 7. Run Kustomization
 
@@ -91,6 +115,15 @@ kubectl port-forward -n awx service/awx-server-service --address 0.0.0.0 31656:8
 http://<vm-ip>:31656/
 ```
 
+11. Get Token Password
+```
+kubectl get secret awx-server-admin-password -o jsonpath="{.data.password}" -n awx | base64 -d; echo
+```
+12. Login Details
+```
+username: admin
+password: token
+```
 ## Refs
 
 https://www.youtube.com/watch?v=n3SzwzbxfRE
