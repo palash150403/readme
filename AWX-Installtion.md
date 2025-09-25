@@ -13,39 +13,39 @@ AWX is the open-source upstream project of Red Hat Ansible Automation Platform. 
 
 ## Table Of Content
 
-[Virtual Machine Setup](#virtual-machine-setup)  
++ [Virtual Machine Setup](#virtual-machine-setup)  
 
-[AWX Installation](#awx-installation)
++ [AWX Installation](#awx-installation)
 
-[Features of Ansible AWX](#features-of-ansible-awx)
++ [Features of Ansible AWX](#features-of-ansible-awx)
 
-[Organization](#organization)  
+  + [Organization](#organization)  
 
-[Inventory](#inventory)  
+  + [Inventory](#inventory)  
 
-[Hosts](#hosts)  
+  + [Hosts](#hosts)  
 
-[Credentials](#credentials)  
+  + [Credentials](#credentials)  
 
-[Projects](#projects)  
+  + [Projects](#projects)  
 
-[Templates](#templates)  
+  + [Templates](#templates)  
 
-[Job Templates](#job-templates)  
+  + [Job Templates](#job-templates)  
 
-[Workflow Templates](#workflow-templates)  
+  + [Workflow Templates](#workflow-templates)  
 
-[Manual Approval](#manual-approval) 
+  + [Manual Approval](#manual-approval) 
 
-[RBAC](#rbac)
+  + [RBAC](#rbac)
 
-### Virtual Machine Setup
+## 1. Virtual Machine Setup
 
 1. Create Linux VM with minimum of:-
     - 4 CPU 
     - 8 GB RAM (F4s v2 on Azure)
 
-    ![alt text](image.png)
+    ![alt text](images/image.png)
 
 
 2. Install Required Dependencies:-
@@ -61,14 +61,14 @@ AWX is the open-source upstream project of Red Hat Ansible Automation Platform. 
    *Starts a single-node Kubernetes cluster on your VM with Ingress enabled and allocates the needed CPU/RAM.*
 
 
-    ```
+    ```sh
     minikube start --cpus=4 --memory=6g --addons=ingress
     ```
 
 2. make dir minikube:
 
     *Creates and enters a folder to keep your Kustomize and AWX manifests together.*
-    ```
+    ```sh
     mkdir minikube
     cd minikube
     ```
@@ -78,20 +78,20 @@ AWX is the open-source upstream project of Red Hat Ansible Automation Platform. 
     *Points `kubectl` to minikube’s built-in context so all commands target this cluster.*
 
 
-    ```
+    ```sh
     alias kubectl="minikube kubectl --"
     ```
 
 
 4. Create Kustomization file:
 
-    *Defines the AWX Operator deployment from a specific tag and the target namespace (`awx`).*
+   + *Defines the AWX Operator deployment from a specific tag and the target namespace (`awx`).*
 
     ```
     vim kustomization.yaml
     ```
-    Use latest tags from https://github.com/ansible/awx-operator/tags
-    ```
+   +  Use latest tags from https://github.com/ansible/awx-operator/tags
+    ```yml
     ---
     apiVersion: kustomize.config.k8s.io/v1beta1
     kind: Kustomization
@@ -113,11 +113,11 @@ AWX is the open-source upstream project of Red Hat Ansible Automation Platform. 
 
     *Declares an AWX instance that the operator will reconcile and expose via NodePort.*
 
-    ```
+    ```sh
     vim awx-server.yaml
     ```
 
-    ```
+    ```yml
     ---
     apiVersion: awx.ansible.com/v1beta1
     kind: AWX
@@ -159,7 +159,7 @@ AWX is the open-source upstream project of Red Hat Ansible Automation Platform. 
 9. check for all svc and pods (usually takes few minutes to get all these resources).
 
 
-    ```
+    ```sh
     kubectl get svc -n awx
     NAME                                              TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
     awx-operator-controller-manager-metrics-service   ClusterIP   10.110.54.158   <none>        8443/TCP       89m
@@ -209,7 +209,7 @@ AWX is the open-source upstream project of Red Hat Ansible Automation Platform. 
     password: <token>
     ```
 
-![alt text](image-1.png)
+![alt text](images/image-1.png)
 
 ## Features of Ansible AWX
 
@@ -218,9 +218,9 @@ AWX is the open-source upstream project of Red Hat Ansible Automation Platform. 
 An **Organization** in AWX is the top-level entity that groups together users, teams, inventories, credentials, and projects.  
 It helps in logically separating resources and applying **role-based access control (RBAC)**, making it easier to manage multiple teams or environments (e.g., Dev, Test, Prod).
 
-<!-- ![alt text](image-2.png) -->
+<!-- ![alt text](images/image-2.png) -->
 
-![alt text](image-3.png)
+![alt text](images/image-3.png)
 
 
 ### Inventory
@@ -229,9 +229,9 @@ It helps in logically separating resources and applying **role-based access cont
 
 AWX supports several methods for inventory creation, including static, dynamic and smart inventory options. 
 
-![alt text](image-4.png)
+![alt text](images/image-4.png)
 
-![alt text](image-5.png)
+![alt text](images/image-5.png)
 
 #### Hosts
 
@@ -241,7 +241,7 @@ They are defined inside an **Inventory** and can be physical servers, VMs, conta
 
 - In the **Name** field, enter a valid **DNS name** (e.g., `web01.prod.example.com`) or an **IP address** (e.g., `192.168.1.10`).  
 
-![alt text](image-6.png)
+![alt text](images/image-6.png)
 
 
 ### Credentials
@@ -250,7 +250,7 @@ AWX uses **credentials** for authentication of aimed workloads. Running Jobs on 
 
 AWX provides an encryption option for storing the sensitive credentials (SSH passwords, SSH private keys, API files for service accounts, etc.). Additionally, AWX supports multiple credential types such as Gcp, Aws, Azure, and some others are shown in the screenshot below.
 
-![alt text](image-7.png)
+![alt text](images/image-7.png)
 
 
 ### Projects  
@@ -259,7 +259,7 @@ Basically, **Projects** represent a collection of Ansible Playbooks. Projects co
 
 In our environment we use Source Control as a repository of Ansible playbooks. We use git@bitbucket. To do so, you need to create access key on bitbucket and use it in AWX. All of the credentials are kept securely in AWX. Keys are encrypted while stored, and they can not be retrieved even from AWX’ s database. 
 
-![alt text](image-8.png)
+![alt text](images/image-8.png)
 
 **How to verify if code was pulled successfully from GitHub:**  
 1. Go to **Projects** in AWX UI.  
@@ -268,9 +268,9 @@ In our environment we use Source Control as a repository of Ansible playbooks. W
    - ✅ **Successful** → Code was pulled successfully.  
    - ❌ **Failed** → Click on the job log to see errors (e.g., invalid Git URL, authentication issues).  
 4. Navigate to **Jobs** → You will see a **Project Sync Job** created for each pull. Open it to view detailed logs of the SCM update.  
-![alt text](image-9.png)
+![alt text](images/image-9.png)
 
-![alt text](image-10.png)
+![alt text](images/image-10.png)
 ### Templates
 Templates in AWX are blueprints that define how automation should be executed.  
 They specify what playbook to run, on which inventory, with which credentials, and any extra parameters.  
@@ -281,50 +281,50 @@ They specify what playbook to run, on which inventory, with which credentials, a
 
 the **Job template** in AWX, consists of configurations required for Ansible jobs. Job template provides ready to use Ansible jobs for Awx users. When the user launches a Job template, AWX automatically runs a single Job for each launched job template. Therefore, job templates are useful to execute the same job many times and create similar jobs from one fundamental job. 
 
-![alt text](image-11.png)
+![alt text](images/image-11.png)
 
 - Click on Launch to run the play book.
 
-![alt text](image-12.png)
+![alt text](images/image-12.png)
 
 - check for logs in details section.
 
-![alt text](image-13.png)
+![alt text](images/image-13.png)
 ### Workflow Templates
 
 Workflow Templates define **chains of jobs** that run in a specific order.  
 They allow complex automation scenarios where multiple Job Templates are linked together. Supports **conditional execution** (success/failure branching). Combine multiple Job Templates and Projects into a single workflow. Useful for **CI/CD pipelines**, multi-step provisioning, or remediation workflows. 
 
-![alt text](image-14.png)
+![alt text](images/image-14.png)
 
 - once created a Template you will see this vizualizer.
 
-![alt text](image-15.png)
+![alt text](images/image-15.png)
 
 - Add the first Job Template in the Workflow.
 
-![alt text](image-16.png)
+![alt text](images/image-16.png)
 
 - Click on **+** to add next job.
 
-![alt text](image-17.png)
+![alt text](images/image-17.png)
 
 - Select condition to trigger next job.
 
-![alt text](image-18.png)
+![alt text](images/image-18.png)
 
 #### Manual Approval
 **Manual Approval** is a feature in AWX **Workflow Job Templates** that allows you to insert a checkpoint before moving to the next job in the workflow.  
 It ensures that human intervention is required before execution continues — useful for production changes or sensitive tasks.  
 
-![alt text](image-19.png)
-![alt text](image-20.png)
-<!-- ![alt text](image-21.png) -->
-![alt text](image-22.png)
+![alt text](images/image-19.png)
+![alt text](images/image-20.png)
+<!-- ![alt text](images/image-21.png) -->
+![alt text](images/image-22.png)
 
 - Final run of the workflow template.
 
-![alt text](image-23.png)
+![alt text](images/image-23.png)
 
 ### RBAC
 **Role-Based Access Control (RBAC)** in AWX lets you grant precise permissions to **users** or **teams** over specific **resources** (Organizations, Projects, Inventories, Credentials, Job/Workflow Templates).  
@@ -340,22 +340,22 @@ Instead of sharing keys or full admin rights, you assign narrowly scoped roles l
 #### Create a User
 
 - Click on Add and create user according to your use case.
-![alt text](image-24.png)
-![alt text](image-25.png)
+![alt text](images/image-24.png)
+![alt text](images/image-25.png)
 
 #### Assign Roles
 
 - Click add in role section
 
-![alt text](image-26.png)
+![alt text](images/image-26.png)
 
 - Select the scope to assign role
 
-![alt text](image-27.png)
+![alt text](images/image-27.png)
 
 - Select the permission to be assigned to the user
 
-![alt text](image-28.png)
+![alt text](images/image-28.png)
 
 ## Refs
 
