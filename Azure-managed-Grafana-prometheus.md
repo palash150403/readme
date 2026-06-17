@@ -245,6 +245,95 @@ These pods are part of the Grafana Alloy stack deployed on your EKS cluster for 
 
 This setup matches the Grafana Cloud Kubernetes monitoring flow: deploy Grafana Alloy, collect cluster telemetry, and stream it into Grafana Cloud for dashboards and alerts.
 
+## Grafana Native Kubernetes Monitoring Experience
+
+The Grafana Cloud Kubernetes monitoring experience is built as a unified drill-down workflow from cluster to workload.
+
+- Clusters → Namespaces → Workloads → Nodes → All Jobs — all connected in one navigation flow
+- Within each workload you get tabs for **Overview, CPU, Memory, Network, Storage, Energy, Logs, Events, Changes**
+- **Per-pod filtering** is available inline on the dashboard
+- **Scheduling & Alignment panels** show CPU request percentage and usage vs request alignment
+- **Right-sizing intelligence** is built in with p95 usage vs requests comparisons
+- **AI Insights toggle** is available per workload
+- **Profiles tab** exposes Pyroscope / continuous profiling data
+- **Cost** is surfaced in the sidebar for cluster and workload views
+
+![Grafana native Kubernetes monitoring navigation](images/image36.png)
+
+## Azure Managed Grafana Kubernetes Monitoring Experience
+
+Azure Managed Grafana with Azure Managed Prometheus exposes Kubernetes telemetry through separate dashboards rather than one cohesive drill-down path.
+
+
+### Complete Pre-built Azure Managed Grafana K8s Dashboards
+
+### Group 1 — Compute Resources (`kubernetes-mixin` tag)
+From Image 1, filtered by `kubernetes-mixin`:
+
+| Dashboard | Location |
+|---|---|
+| Kubernetes / Compute Resources / Cluster | Azure Managed Prometheus |
+| Kubernetes / Compute Resources / Cluster (Windows) | Azure Managed Prometheus |
+| Kubernetes / Compute Resources / Namespace (Pods) | Azure Managed Prometheus |
+| Kubernetes / Compute Resources / Namespace (Workloads) | Azure Managed Prometheus |
+| Kubernetes / Compute Resources / Namespace (Windows) | Azure Managed Prometheus |
+| Kubernetes / Compute Resources / Node (Pods) | Azure Managed Prometheus |
+| Kubernetes / Compute Resources / Pod | Azure Managed Prometheus |
+| Kubernetes / Compute Resources / Pod (Windows) | Azure Managed Prometheus |
+| Kubernetes / Compute Resources / Workload | Azure Managed Prometheus |
+| Kubernetes / Kubelet | Azure Managed Prometheus |
+| Kubernetes / USE Method / Cluster (Windows) | Azure Managed Prometheus |
+| Kubernetes / USE Method / Node (Windows) | Azure Managed Prometheus |
+
+![Azure Managed Grafana compute dashboards](images/image34.png)
+### Group 2 — Networking (`k8s:network-observability` tag)
+From Image 2, filtered by `k8s:network-observability`:
+
+| Dashboard | Location |
+|---|---|
+| Azure / Insights / Containers / Networking (v1) | Azure Monitor |
+| Azure / Insights / Containers / Networking (v2) | Azure Monitor |
+| Kubernetes / Networking / Clusters | Azure Managed Prometheus |
+| Kubernetes / Networking / DNS (Cluster) | Azure Managed Prometheus |
+| Kubernetes / Networking / DNS (Workload) | Azure Managed Prometheus |
+| Kubernetes / Networking / Drops (Workload) | Azure Managed Prometheus |
+| Kubernetes / Networking / L7 (Namespace) | Azure Managed Prometheus |
+| Kubernetes / Networking / L7 (Workload) | Azure Managed Prometheus |
+| Kubernetes / Networking / Pod Flows (Namespace) | Azure Managed Prometheus |
+| Kubernetes / Networking / Pod Flows (Workload) | Azure Managed Prometheus |
+
+![Azure Managed Grafana networking dashboards](images/image35.png)
+
+## Compared to Grafana Native K8s
+
+| Category | Grafana Native K8s | Azure Managed Grafana |
+|---|---|---|
+| **Compute — Cluster level** | ✅ Unified drill-down | ✅ Dedicated dashboard |
+| **Compute — Namespace level** | ✅ Tab within flow | ✅ Pods + Workloads separate |
+| **Compute — Node level** | ✅ Tab within flow | ✅ Dedicated dashboard |
+| **Compute — Pod level** | ✅ Tab within flow | ✅ Dedicated dashboard |
+| **Compute — Workload level** | ✅ Tab within flow | ✅ Dedicated dashboard |
+| **Windows node pools** | ❌ Not shown | ✅ Cluster, Pod, USE Method |
+| **Kubelet metrics** | ❌ Not separate | ✅ Dedicated dashboard |
+| **USE Method dashboards** | ❌ No | ✅ Windows specific |
+| **Networking — DNS** | ❌ No | ✅ Cluster + Workload level |
+| **Networking — Drops** | ❌ No | ✅ Workload level |
+| **Networking — L7** | ❌ No | ✅ Namespace + Workload |
+| **Networking — Pod Flows** | ❌ No | ✅ Namespace + Workload |
+| **Azure Monitor Networking** | ❌ No | ✅ 2 dashboards (v1, v2) |
+| **Right-sizing / Alignment** | ✅ Built-in panels | ❌ Not pre-built |
+| **AI Insights** | ✅ Yes | ❌ No |
+| **Logs tab** | ✅ Integrated | ❌ Separate |
+| **Events tab** | ✅ Per workload | ❌ Not pre-built |
+| **Profiling** | ✅ Pyroscope tab | ❌ No |
+| **Navigation style** | Unified drill-down | Flat independent dashboards |
+
+## Key Takeaway
+
+**Azure Managed Grafana wins on breadth** — especially networking observability (DNS, L7, Pod Flows, Drops) and Windows workload support which Grafana native doesn't pre-build.
+
+**Grafana Native wins on depth** — unified UX, right-sizing intelligence, logs/events integrated per workload, AI insights, and profiling — all things Azure Managed Grafana doesn't have out of the box.
+
 ---
 
 ## Overview
