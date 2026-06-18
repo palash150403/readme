@@ -6,19 +6,20 @@ This comprehensive guide covers setup and feature comparison for both Grafana Cl
 
 1. [Azure Managed Grafana Setup](#azure-managed-grafana-setup)
 2. [Grafana Cloud Setup](#grafana-cloud-setup)
-3. [Feature Comparison Matrix](#feature-comparison-matrix)
-4. [Grafana Cloud — Key Features (Grafana 13)](#grafana-cloud--key-features-grafana-13)
-5. [Azure Managed Grafana — Key Features & Limitations](#azure-managed-grafana--key-features--limitations)
-6. [Pricing Model Comparison](#pricing-model-comparison)
-7. [Identity & Access Management](#identity--access-management)
-8. [Observability Stack Support](#observability-stack-support)
-9. [AI Capabilities](#ai-capabilities)
-10. [Plugin & Extensibility](#plugin--extensibility)
-11. [Networking & Security](#networking--security)
-12. [IaC / GitOps Support](#iac--gitops-support)
-13. [Service Limits & Quotas](#service-limits--quotas)
-14. [Sovereign Cloud & Compliance](#sovereign-cloud--compliance)
-15. [Recommendation](#recommendation)
+3. [Built-in Dashboard Metrics Comparison by Resource Level](#built-in-dashboard-metrics-comparison-by-resource-level)
+   - [Resource Level Coverage Summary](#resource-level-coverage-summary)
+   - [Cluster Level](#cluster-level)
+   - [Namespace Level](#namespace-level)
+   - [Node Level](#node-level)
+   - [Workload Level](#workload-level)
+   - [Pod Level](#pod-level)
+   - [Container Level](#container-level)
+   - [Kubelet Level](#kubelet-level-azure-managed-grafana-only)
+   - [Dedicated Networking Dashboards](#dedicated-networking-dashboards)
+   - [Overall Metric Category Winner](#overall-metric-category-winner)
+4. [Feature Comparison Matrix](#feature-comparison-matrix)
+5. [Grafana Cloud — Key Features (Grafana 13)](#grafana-cloud--key-features-grafana-13)
+6. [References](#references)
 
 ---
 
@@ -304,67 +305,517 @@ From Image 2, filtered by `k8s:network-observability`:
 
 ![Azure Managed Grafana networking dashboards](images/image35.png)
 
-## Compared to Grafana Native K8s
 
-| Category | Grafana Native K8s | Azure Managed Grafana |
+
+---
+
+# Built-in Dashboard Metrics Comparison by Resource Level
+
+**Legend:** ✅ Available | ❌ Not Available | ⚠️ Partial / indirect
+
+This section provides a detailed metric-by-metric comparison of the built-in Kubernetes monitoring dashboards in Azure Managed Grafana (via Azure Managed Prometheus) and Grafana Cloud across all resource levels.
+
+## Resource Level Coverage Summary
+
+| Resource Level | Azure Managed Grafana Dashboards | Grafana Cloud Dashboards |
 |---|---|---|
-| **Compute — Cluster level** | ✅ Unified drill-down | ✅ Dedicated dashboard |
-| **Compute — Namespace level** | ✅ Tab within flow | ✅ Pods + Workloads separate |
-| **Compute — Node level** | ✅ Tab within flow | ✅ Dedicated dashboard |
-| **Compute — Pod level** | ✅ Tab within flow | ✅ Dedicated dashboard |
-| **Compute — Workload level** | ✅ Tab within flow | ✅ Dedicated dashboard |
-| **Windows node pools** | ❌ Not shown | ✅ Cluster, Pod, USE Method |
-| **Kubelet metrics** | ❌ Not separate | ✅ Dedicated dashboard |
-| **USE Method dashboards** | ❌ No | ✅ Windows specific |
-| **Networking — DNS** | ❌ No | ✅ Cluster + Workload level |
-| **Networking — Drops** | ❌ No | ✅ Workload level |
-| **Networking — L7** | ❌ No | ✅ Namespace + Workload |
-| **Networking — Pod Flows** | ❌ No | ✅ Namespace + Workload |
-| **Azure Monitor Networking** | ❌ No | ✅ 2 dashboards (v1, v2) |
-| **Right-sizing / Alignment** | ✅ Built-in panels | ❌ Not pre-built |
-| **AI Insights** | ✅ Yes | ❌ No |
-| **Logs tab** | ✅ Integrated | ❌ Separate |
-| **Events tab** | ✅ Per workload | ❌ Not pre-built |
-| **Profiling** | ✅ Pyroscope tab | ❌ No |
-| **Navigation style** | Unified drill-down | Flat independent dashboards |
-
-## Key Takeaway
-
-**Azure Managed Grafana wins on breadth** — especially networking observability (DNS, L7, Pod Flows, Drops) and Windows workload support which Grafana native doesn't pre-build.
-
-**Grafana Native wins on depth** — unified UX, right-sizing intelligence, logs/events integrated per workload, AI insights, and profiling — all things Azure Managed Grafana doesn't have out of the box.
+| **Cluster** | Kubernetes / Compute Resources / Cluster | Cluster Level (CPU, Memory, GPU, Network, Storage, Energy) |
+| **Namespace** | Kubernetes / Compute Resources / Namespace (Pods + Workloads) | Namespace Level (CPU, Memory, Network, Storage) |
+| **Node** | Kubernetes / Compute Resources / Node (Pods) | Node Level (CPU, Memory, GPU, Network, Storage, Energy) |
+| **Workload** | Kubernetes / Compute Resources / Workload | Workload Level (CPU, Memory, GPU, Network, Storage, Energy) |
+| **Pod** | Kubernetes / Compute Resources / Pod | Pod Level (CPU, Memory, Network, Storage, Energy) |
+| **Container** | ❌ No dedicated dashboard | ✅ Container Optimization (CPU, Memory, Cost, Prediction, Stability) |
+| **Kubelet** | ✅ Kubernetes / Kubelet | ❌ No dedicated dashboard |
+| **Network — Pod Flows** | ✅ Workload + Namespace | ❌ Not pre-built |
+| **Network — L7 (HTTP/Kafka)** | ✅ Workload + Namespace | ❌ Not pre-built |
+| **Network — DNS** | ✅ Cluster + Workload | ❌ Not pre-built |
+| **Network — Drops** | ✅ Workload level | ❌ Not pre-built |
+| **Network — Fleet/Clusters** | ✅ Multi-cluster fleet view | ❌ Not pre-built |
+| **Azure Flow Logs / Topology** | ✅ Analytics Tier dashboard | ❌ Not applicable |
 
 ---
 
-## Overview
+## Cluster Level
 
-| | Grafana Cloud | Azure Managed Grafana |
-|---|---|---|
-| **Managed by** | Grafana Labs | Microsoft |
-| **Underlying version** | Grafana 13 (latest, always up-to-date) | Grafana Enterprise (lags behind, Microsoft-controlled cadence) |
-| **Deployment model** | SaaS (multi-cloud, hosted by Grafana Labs) | PaaS within Azure subscription |
-| **Primary use case** | Full-stack observability, LGTM stack, AI-driven ops | Azure-centric monitoring, Azure Monitor integration |
-| **Best for** | Teams on multi-cloud / hybrid stacks, needing latest Grafana features | Teams deeply embedded in Azure with Entra ID, Azure Monitor as primary signal source |
+### CPU
+
+| Metric / Parameter | Azure Managed Grafana | Grafana Cloud |
+|---|:---:|:---:|
+| CPU Utilisation (%) | ✅ | ✅ |
+| CPU Requests Commitment | ✅ | ✅ Efficiency: requests/capacity (p95) |
+| CPU Limits Commitment | ✅ | ⚠️ Sum of limits shown |
+| CPU Usage by Namespace (vCPU cores) | ✅ | ✅ Overview + by Namespace |
+| CPU Quota table (Usage, Requests%, Limits%) | ✅ Per Namespace | ⚠️ Separate panels |
+| Efficiency: usage/capacity (p95) | ❌ | ✅ |
+| Efficiency: usage/requests (p95) | ❌ | ✅ |
+| Physical cluster capacity | ❌ | ✅ |
+| Distribution: node usage/cluster capacity (stacked) | ❌ | ✅ |
+| Efficiency: node usage/node capacity (%) | ❌ | ✅ |
+| Distribution: namespace usage/cluster capacity (stacked) | ❌ | ✅ |
+| Alignment: namespace usage/requests (%) | ❌ | ✅ |
+
+### Memory
+
+| Metric / Parameter | Azure Managed Grafana | Grafana Cloud |
+|---|:---:|:---:|
+| Memory Utilisation (%) | ✅ | ✅ |
+| Memory Requests Commitment | ✅ | ✅ Efficiency: requests/capacity (p95) |
+| Memory Limits Commitment | ✅ | ⚠️ Sum of limits shown |
+| Memory Usage by Namespace (bytes) | ✅ | ✅ Overview + by Namespace |
+| Memory Quota table (Usage, Requests%, Limits%) | ✅ Per Namespace | ⚠️ Separate panels |
+| Efficiency: usage/capacity (p95) | ❌ | ✅ |
+| Efficiency: usage/requests (p95) | ❌ | ✅ |
+| Physical cluster capacity | ❌ | ✅ |
+| Distribution: node/namespace usage (stacked) | ❌ | ✅ |
+| Alignment: namespace usage/requests (%) | ❌ | ✅ |
+
+### Network
+
+| Metric / Parameter | Azure Managed Grafana | Grafana Cloud |
+|---|:---:|:---:|
+| Current Receive/Transmit Bandwidth | ✅ | ✅ Rx/Tx Min/90th/Max |
+| Rate of Received/Transmitted Packets | ✅ | ❌ |
+| Rate of Received/Transmitted Packets Dropped | ✅ | ✅ Network Saturation |
+| Avg Container Bandwidth by Namespace (Rx/Tx) | ✅ | ❌ |
+| Network Bandwidth by node (Rx/Tx) | ❌ | ✅ |
+| Network Saturation by node | ❌ | ✅ |
+
+### Storage
+
+| Metric / Parameter | Azure Managed Grafana | Grafana Cloud |
+|---|:---:|:---:|
+| IOPS (Reads + Writes) | ✅ | ✅ + by namespace |
+| Throughput (Read + Write) | ✅ | ✅ + by namespace |
+| Current Storage IO | ✅ | ❌ |
+| PVC Volume Bytes / Inodes | ❌ | ✅ + by namespace |
+| PVC / PV Status | ❌ | ✅ |
+| PVC Storage Class | ❌ | ✅ |
+
+### GPU
+
+| Metric / Parameter | Azure Managed Grafana | Grafana Cloud |
+|---|:---:|:---:|
+| GPU / Tensor Core / Encoder / Decoder Utilization | ❌ | ✅ |
+| Cluster GPU Utilization | ❌ | ✅ |
+| GPU Power / Temperature | ❌ | ✅ |
+| Warning / Error Threshold | ❌ | ✅ |
+
+### Energy
+
+| Metric / Parameter | Azure Managed Grafana | Grafana Cloud |
+|---|:---:|:---:|
+| Energy usage total (1h) | ❌ | ✅ |
+| Package energy (min/mean/max) | ❌ | ✅ |
+| DRAM energy (min/mean/max) | ❌ | ✅ |
+| Energy usage by node / namespace (1h) | ❌ | ✅ |
 
 ---
 
-## Quick Verdict
+## Namespace Level
 
-| Scenario | Winner |
-|---|---|
-| You live in Azure and use Azure Monitor + ADX | **Azure Managed Grafana** |
-| You need latest Grafana features (Grafana 13, AI Assistant) | **Grafana Cloud** |
-| You need full RBAC control | **Grafana Cloud** |
-| You need k6, Loki, Tempo, Mimir, Pyroscope | **Grafana Cloud** |
-| You need Azure Entra ID SSO without extra config | **Azure Managed Grafana** |
-| You need Grafana Plugin Catalog access | **Grafana Cloud** |
-| You need SLA with zone redundancy | Both (Azure Managed Grafana Standard; Grafana Cloud Pro+) |
-| Budget is usage-based and teams are small | **Grafana Cloud** (free tier available) |
-| Predictable per-user billing preferred | **Azure Managed Grafana** |
+### CPU
+
+| Metric / Parameter | Azure Managed Grafana | Grafana Cloud |
+|---|:---:|:---:|
+| CPU Utilisation from requests | ✅ (Namespace Pods) | ⚠️ via Alignment panel |
+| CPU Utilisation from limits | ✅ (Namespace Pods) | ❌ |
+| CPU Usage | ✅ | ✅ Overview: usage (vCPU cores) |
+| CPU Quota | ✅ | ⚠️ via Workloads table |
+| Workload Usage distribution (cores, stacked) | ❌ | ✅ |
+| Alerting: Firing (p95) | ❌ | ✅ |
+| Containers with CPU requests set (p95) | ❌ | ✅ |
+| Alignment: usage/requests (p95) | ❌ | ✅ |
+| Alignment: Workload Usage/Requests (%) | ❌ | ✅ |
+
+### Memory
+
+| Metric / Parameter | Azure Managed Grafana | Grafana Cloud |
+|---|:---:|:---:|
+| Memory Utilisation from requests | ✅ (Namespace Pods) | ⚠️ via Alignment panel |
+| Memory Utilisation from limits | ✅ (Namespace Pods) | ❌ |
+| Memory Usage (w/o cache) | ✅ | ✅ |
+| Memory Quota | ✅ | ⚠️ via Workloads table |
+| Workload Usage distribution (bytes, stacked) | ❌ | ✅ |
+| Alerting: Firing (p95) | ❌ | ✅ |
+| Containers with Memory requests set (p95) | ❌ | ✅ |
+| Alignment: usage/requests (p95) | ❌ | ✅ |
+| Alignment: Workload Usage/Requests (%) | ❌ | ✅ |
+
+### Network
+
+| Metric / Parameter | Azure Managed Grafana | Grafana Cloud |
+|---|:---:|:---:|
+| Current Network Usage | ✅ | ⚠️ Summary stat |
+| Receive / Transmit Bandwidth | ✅ | ✅ |
+| Rate of Received/Transmitted Packets | ✅ | ❌ |
+| Rate of Packets Dropped | ✅ | ✅ Network Saturation |
+| Avg Container Bandwidth by Workload (Rx/Tx) | ✅ (Namespace Workloads) | ❌ |
+| Network Bandwidth by workload | ❌ | ✅ |
+| Network Saturation by workload | ❌ | ✅ |
+
+### Storage
+
+| Metric / Parameter | Azure Managed Grafana | Grafana Cloud |
+|---|:---:|:---:|
+| IOPS (Reads + Writes) | ✅ (Namespace Pods) | ✅ + by workload |
+| Throughput (Read + Write) | ✅ (Namespace Pods) | ✅ + by workload |
+| Current Storage IO | ✅ (Namespace Pods) | ❌ |
+| PVC Volume Bytes / Inodes | ❌ | ✅ + by workload |
+| PVC / PV Status | ❌ | ✅ |
+| PVC Storage Class | ❌ | ✅ |
 
 ---
 
-## Feature Comparison Matrix
+## Node Level
+
+### CPU
+
+| Metric / Parameter | Azure Managed Grafana | Grafana Cloud |
+|---|:---:|:---:|
+| CPU Usage | ✅ | ✅ Sum of container CPU usage |
+| CPU Quota table | ✅ | ⚠️ via pod-level distribution |
+| Efficiency: requests/capacity (p95) | ❌ | ✅ |
+| Efficiency: usage/capacity (p95) | ❌ | ✅ |
+| Efficiency: usage/requests (p95) | ❌ | ✅ |
+| Physical capacity of node | ❌ | ✅ |
+| Sum of container CPU limits/requests | ❌ | ✅ |
+| Distribution: pod usage/node capacity (stacked) | ❌ | ✅ |
+| Pod usage/requests (%) | ❌ | ✅ |
+
+### Memory
+
+| Metric / Parameter | Azure Managed Grafana | Grafana Cloud |
+|---|:---:|:---:|
+| Memory Usage (w/o cache) | ✅ | ✅ Sum of container Memory usage |
+| Memory Quota table | ✅ | ⚠️ via pod-level distribution |
+| Efficiency: requests/capacity (p95) | ❌ | ✅ |
+| Efficiency: usage/capacity (p95) | ❌ | ✅ |
+| Efficiency: usage/requests (p95) | ❌ | ✅ |
+| Physical capacity of node | ❌ | ✅ |
+| Sum of container Memory limits/requests | ❌ | ✅ |
+| Distribution: pod usage/node capacity (stacked) | ❌ | ✅ |
+| Pod usage/requests (%) | ❌ | ✅ |
+
+### GPU
+
+| Metric / Parameter | Azure Managed Grafana | Grafana Cloud |
+|---|:---:|:---:|
+| GPU / Tensor Core / Encoder / Decoder Utilization | ❌ | ✅ |
+| GPU Utilization by Node | ❌ | ✅ |
+| GPU Power / Temperature | ❌ | ✅ |
+| PCIe Data / PCIe Replay Counter | ❌ | ✅ |
+
+### Network
+
+| Metric / Parameter | Azure Managed Grafana | Grafana Cloud |
+|---|:---:|:---:|
+| Network Bandwidth (Rx/Tx) | ❌ (not in Node Pods dashboard) | ✅ Min/90th/Max |
+| Network Saturation (dropped packets Rx/Tx) | ❌ | ✅ |
+| Network Bandwidth/Saturation by node | ❌ | ✅ |
+
+### Storage
+
+| Metric / Parameter | Azure Managed Grafana | Grafana Cloud |
+|---|:---:|:---:|
+| IOPS / Throughput | ❌ | ✅ + by pod |
+| PVC Volume Bytes / Inodes | ❌ | ✅ + by pod |
+| PVC / PV Status | ❌ | ✅ |
+| PVC Storage Class | ❌ | ✅ |
+
+### Energy
+
+| Metric / Parameter | Azure Managed Grafana | Grafana Cloud |
+|---|:---:|:---:|
+| Energy usage (1h) | ❌ | ✅ |
+| Energy usage by pod (1h) | ❌ | ✅ |
+
+---
+
+## Workload Level
+
+### CPU
+
+| Metric / Parameter | Azure Managed Grafana | Grafana Cloud |
+|---|:---:|:---:|
+| CPU Usage | ✅ | ✅ Sum of container CPU usage |
+| CPU Quota table | ✅ | ⚠️ via distribution panels |
+| Efficiency: requests/capacity (p95) | ❌ | ✅ |
+| Efficiency: usage/capacity (p95) | ❌ | ✅ |
+| Efficiency: usage/requests (p95) | ❌ | ✅ |
+| Physical capacity of node | ❌ | ✅ |
+| Sum of container CPU limits/requests | ❌ | ✅ |
+| Distribution: Container usage/capacity (stacked) | ❌ | ✅ |
+| Container usage/requests (%) | ❌ | ✅ |
+
+### Memory
+
+| Metric / Parameter | Azure Managed Grafana | Grafana Cloud |
+|---|:---:|:---:|
+| Memory Usage | ✅ | ✅ Sum of container Memory usage |
+| Memory Quota table | ✅ | ⚠️ via distribution panels |
+| Efficiency: requests/capacity (p95) | ❌ | ✅ |
+| Efficiency: usage/capacity (p95) | ❌ | ✅ |
+| Efficiency: usage/requests (p95) | ❌ | ✅ |
+| Physical capacity of node | ❌ | ✅ |
+| Sum of container Memory limits/requests | ❌ | ✅ |
+| Distribution: pod usage/node capacity (stacked) | ❌ | ✅ |
+| Pod usage/requests (%) | ❌ | ✅ |
+
+### GPU
+
+| Metric / Parameter | Azure Managed Grafana | Grafana Cloud |
+|---|:---:|:---:|
+| GPU / Tensor Core / Encoder / Decoder Utilization | ❌ | ✅ |
+| GPU Utilization by Node / GPU Power / Temperature | ❌ | ✅ |
+| PCIe Data / PCIe Replay Counter | ❌ | ✅ |
+
+### Network
+
+| Metric / Parameter | Azure Managed Grafana | Grafana Cloud |
+|---|:---:|:---:|
+| Current Network Usage | ✅ | ⚠️ Summary stat |
+| Receive / Transmit Bandwidth | ✅ | ✅ Min/90th/Max |
+| Avg Container Bandwidth by Pod (Rx/Tx) | ✅ | ❌ |
+| Rate of Received/Transmitted Packets | ✅ | ❌ |
+| Rate of Packets Dropped | ✅ | ✅ Network Saturation |
+| Network Bandwidth/Saturation by node | ❌ | ✅ |
+
+### Storage
+
+| Metric / Parameter | Azure Managed Grafana | Grafana Cloud |
+|---|:---:|:---:|
+| IOPS / Throughput | ❌ | ✅ + by pod |
+| PVC Volume Bytes / Inodes | ❌ | ✅ + by pod |
+| PVC / PV Status | ❌ | ✅ |
+| PVC Storage Class | ❌ | ✅ |
+
+### Energy
+
+| Metric / Parameter | Azure Managed Grafana | Grafana Cloud |
+|---|:---:|:---:|
+| Energy usage (1h) | ❌ | ✅ |
+| Energy usage by pod (1h) | ❌ | ✅ |
+
+---
+
+## Pod Level
+
+### CPU
+
+| Metric / Parameter | Azure Managed Grafana | Grafana Cloud |
+|---|:---:|:---:|
+| CPU Usage | ✅ | ✅ Sum of container CPU usage |
+| CPU Throttling | ✅ | ❌ (at container level in Grafana Cloud) |
+| CPU Quota table | ✅ | ⚠️ via distribution panels |
+| Efficiency: requests/capacity (p95) | ❌ | ✅ |
+| Efficiency: usage/capacity (p95) | ❌ | ✅ |
+| Efficiency: usage/requests (p95) | ❌ | ✅ |
+| Physical capacity of node | ❌ | ✅ |
+| Sum of container CPU limits/requests | ❌ | ✅ |
+| Distribution: pod usage/node capacity (stacked) | ❌ | ✅ |
+| Pod usage/requests (%) | ❌ | ✅ |
+
+### Memory
+
+| Metric / Parameter | Azure Managed Grafana | Grafana Cloud |
+|---|:---:|:---:|
+| Memory Usage (WSS) | ✅ | ✅ Sum of container Memory usage |
+| Memory Quota table | ✅ | ⚠️ via distribution panels |
+| Efficiency: requests/capacity (p95) | ❌ | ✅ |
+| Efficiency: usage/capacity (p95) | ❌ | ✅ |
+| Efficiency: usage/requests (p95) | ❌ | ✅ |
+| Physical capacity of node | ❌ | ✅ |
+| Sum of container Memory limits/requests | ❌ | ✅ |
+| Distribution: Container usage/node capacity (stacked) | ❌ | ✅ |
+| Container usage/requests (%) | ❌ | ✅ |
+
+### Network
+
+| Metric / Parameter | Azure Managed Grafana | Grafana Cloud |
+|---|:---:|:---:|
+| Receive / Transmit Bandwidth | ✅ | ✅ Min/90th/Max |
+| Rate of Received/Transmitted Packets | ✅ | ❌ |
+| Rate of Packets Dropped | ✅ | ✅ Network Saturation |
+| Network Bandwidth by interface | ❌ | ✅ |
+| Network Saturation by interface | ❌ | ✅ |
+
+### Storage
+
+| Metric / Parameter | Azure Managed Grafana | Grafana Cloud |
+|---|:---:|:---:|
+| IOPS (Pod) | ✅ | ✅ IOPS (read/write) |
+| IOPS (Containers) | ✅ | ✅ IOPS by Container |
+| Throughput (Pod) | ✅ | ✅ Throughput (read/write) |
+| Throughput (Containers) | ✅ | ✅ Throughput by Container |
+| Current Storage IO | ✅ | ❌ |
+| PVC Volume Bytes / Inodes | ❌ | ✅ + by Container |
+| PVC / PV Status | ❌ | ✅ |
+| PVC Storage Class | ❌ | ✅ |
+
+### Energy
+
+| Metric / Parameter | Azure Managed Grafana | Grafana Cloud |
+|---|:---:|:---:|
+| Energy usage (1h) | ❌ | ✅ |
+| Energy usage by Container (1h) | ❌ | ✅ |
+
+---
+
+## Container Level
+
+> Azure Managed Grafana has **no dedicated container-level dashboard**. Container details are partially visible within the Pod dashboard.
+
+| Metric / Parameter | Azure Managed Grafana | Grafana Cloud |
+|---|:---:|:---:|
+| **CPU Sizing & Usage** | | |
+| Container CPU allocation / requests / usage | ❌ | ✅ |
+| CPU requests sizing (current vs recommended) | ❌ | ✅ |
+| CPU limits sizing (current vs recommended) | ❌ | ✅ |
+| CPU throttling | ❌ | ✅ |
+| **Memory Sizing & Usage** | | |
+| Container memory allocation / requests / usage | ❌ | ✅ |
+| Memory requests sizing (current vs recommended) | ❌ | ✅ |
+| Memory limits sizing (current vs recommended) | ❌ | ✅ |
+| Memory optimization recommendation | ❌ | ✅ |
+| **Cost Allocation** | | |
+| CPU / Memory cost allocation | ❌ | ✅ |
+| Total cost (compute) | ❌ | ✅ |
+| CPU / Memory idle cost + Total idle cost | ❌ | ✅ |
+| **Prediction Models** | | |
+| Predict CPU / Memory usage | ❌ | ✅ |
+| Recommended resource sizing | ❌ | ✅ |
+| **Stability / Runtime Signals** | | |
+| Container restarts + restart history | ❌ | ✅ |
+| Last terminated reason | ❌ | ✅ |
+
+---
+
+## Kubelet Level (Azure Managed Grafana Only)
+
+> Grafana Cloud has no equivalent dedicated Kubelet dashboard.
+
+| Metric / Parameter | Azure Managed Grafana | Grafana Cloud |
+|---|:---:|:---:|
+| Running Kubelets / Pods / Containers | ✅ | ❌ |
+| Actual / Desired Volume Count | ✅ | ❌ |
+| Config Error Count | ✅ | ❌ |
+| Operation Rate / Error Rate / Duration (99th quantile) | ✅ | ❌ |
+| Pod Start Rate / Duration | ✅ | ❌ |
+| Storage Operation Rate / Error Rate / Duration | ✅ | ❌ |
+| Cgroup Manager Rate / 99th Quantile | ✅ | ❌ |
+| PLEG Relist Rate / Interval / Duration | ✅ | ❌ |
+| RPC Rate / Request Duration (99th quantile) | ✅ | ❌ |
+| Kubelet Memory / CPU Resource Usage | ✅ | ❌ |
+| Runtime Goroutines | ✅ | ❌ |
+
+---
+
+## Dedicated Networking Dashboards
+
+Azure Managed Grafana ships extensive dedicated networking dashboards (powered by Cilium / Azure Network Observability). Grafana Cloud embeds basic network bandwidth and saturation within each resource level but has no dedicated deep-dive networking dashboards pre-built.
+
+### Pod Flows (Workload & Namespace)
+
+| Metric / Parameter | Azure Managed Grafana | Grafana Cloud |
+|---|:---:|:---:|
+| Pods with Outgoing/Incoming Traffic (last 10 min) | ✅ | ❌ |
+| Max/Min Outgoing/Incoming Traffic | ✅ | ❌ |
+| Pods with Outgoing/Incoming Drops | ✅ | ❌ |
+| Outgoing/Incoming Traffic by Trace Type / Verdict | ✅ | ❌ |
+| Heatmap of Traffic for Top Source/Destination Pods | ✅ | ❌ |
+| Stacked Total Outgoing/Incoming Traffic by Pod | ✅ | ❌ |
+| Heatmap / Stacked Drops by Source/Destination Pod | ✅ | ❌ |
+| TCP RST Analysis (Heatmap + Stacked, Outgoing/Incoming) | ✅ | ❌ |
+| TCP FIN Analysis (Heatmap + Stacked, Outgoing/Incoming) | ✅ | ❌ |
+| Top Source/Destination Namespaces | ✅ (Namespace level) | ❌ |
+
+### L7 Traffic — HTTP & Kafka (Workload & Namespace)
+
+| Metric / Parameter | Azure Managed Grafana | Grafana Cloud |
+|---|:---:|:---:|
+| HTTP Outgoing/Incoming Request Success Rate (non-4xx/5xx) | ✅ | ❌ |
+| Pods with HTTP Requests / 4xx / 5xx Errors | ✅ | ❌ |
+| HTTP Traffic by Verdict + by method and status count | ✅ | ❌ |
+| Stacked HTTP Requests / Drops by Source/Destination Pod | ✅ | ❌ |
+| Error Heatmaps (4xx Outgoing / 5xx Incoming) | ✅ | ❌ |
+| Kafka Outgoing/Incoming Request Success Rate | ✅ | ❌ |
+| Kafka Traffic by Verdict + by Topic and API Key | ✅ | ❌ |
+| Stacked Kafka Requests / Drops by Pod | ✅ | ❌ |
+
+### DNS Dashboards (Workload & Cluster)
+
+| Metric / Parameter | Azure Managed Grafana | Grafana Cloud |
+|---|:---:|:---:|
+| DNS Requests / Responses / Errors / Errors by Node | ✅ | ❌ |
+| DNS Response IPs Returned | ✅ | ❌ |
+| DNS Missing Response by Query Type | ✅ | ❌ |
+| Top DNS Queries (Requests / Responses) | ✅ | ❌ |
+| DNS Response Table | ✅ (Cluster) | ❌ |
+| Top Pods with DNS Errors / Most DNS Requests | ✅ | ❌ |
+
+### Network Drops (Workload)
+
+| Metric / Parameter | Azure Managed Grafana | Grafana Cloud |
+|---|:---:|:---:|
+| Pods with Outgoing/Incoming Drops (last 10 min) | ✅ | ❌ |
+| Max/Min Outgoing/Incoming Drops | ✅ | ❌ |
+| Dropped Traffic by Reason (Outgoing/Incoming) | ✅ | ❌ |
+| Stacked Drops by Source/Destination Pod | ✅ | ❌ |
+| Heatmap of Drops by Top Pods | ✅ | ❌ |
+
+### Cluster Fleet View
+
+| Metric / Parameter | Azure Managed Grafana | Grafana Cloud |
+|---|:---:|:---:|
+| Current/Dropped Traffic by Cluster (Bytes/Packets) | ✅ | ❌ |
+| Egress/Ingress Bytes and Packets per Cluster | ✅ | ❌ |
+| Bytes/Packets Dropped by Reason and by Node | ✅ | ❌ |
+| Connections (9 panels) | ✅ | ❌ |
+| RX/TX Packets by Interface | ✅ | ❌ |
+| Interface Errors (Rx/Tx Cache Full, Comp Full, Send Full) | ✅ | ❌ |
+
+### Azure Flow Logs — Analytics Tier
+
+| Metric / Parameter | Azure Managed Grafana | Grafana Cloud |
+|---|:---:|:---:|
+| Connection Graph (Service Topology) | ✅ | ❌ |
+| Total Flow Logs / Requests / Responses / Dropped Requests | ✅ | ❌ |
+| DNS / HTTP Response Errors | ✅ | ❌ |
+| All Flow Logs table + Error Logs table (first 1000) | ✅ | ❌ |
+| Top Namespaces / Workloads by Requests / Drops / Errors | ✅ | ❌ |
+| Top Workloads by Port/Query | ✅ | ❌ |
+| Protocol Summary (Requests, Drops, DNS, HTTP errors) | ✅ | ❌ |
+
+---
+
+## Overall Metric Category Winner
+
+| Category | Azure Managed Grafana | Grafana Cloud | Winner |
+|---|:---:|:---:|:---:|
+| **CPU — basic utilisation + quota** | ✅ | ✅ | Tie |
+| **CPU — efficiency, alignment, p95, distribution** | ❌ | ✅ | **Grafana Cloud** |
+| **Memory — basic utilisation + quota** | ✅ | ✅ | Tie |
+| **Memory — efficiency, alignment, p95, distribution** | ❌ | ✅ | **Grafana Cloud** |
+| **Network — bandwidth + packet rates** | ✅ | ✅ | Tie |
+| **Network — deep observability (Pod Flows, L7, DNS, Drops)** | ✅ | ❌ | **Azure Managed Grafana** |
+| **Network — TCP analysis (RST/FIN)** | ✅ | ❌ | **Azure Managed Grafana** |
+| **Storage — IOPS + Throughput** | ✅ | ✅ | Tie |
+| **Storage — PVC/PV visibility (Status, Inodes, Class)** | ❌ | ✅ | **Grafana Cloud** |
+| **GPU** | ❌ | ✅ | **Grafana Cloud** |
+| **Energy / Carbon** | ❌ | ✅ | **Grafana Cloud** |
+| **Container-level optimization + right-sizing** | ❌ | ✅ | **Grafana Cloud** |
+| **Cost allocation + idle cost** | ❌ | ✅ | **Grafana Cloud** |
+| **CPU/Memory usage prediction** | ❌ | ✅ | **Grafana Cloud** |
+| **Container lifecycle (restarts, terminated reason)** | ❌ | ✅ | **Grafana Cloud** |
+| **Alerting surfaced in dashboards (p95)** | ❌ | ✅ | **Grafana Cloud** |
+| **Kubelet internals (PLEG, cgroup, RPC, goroutines)** | ✅ | ❌ | **Azure Managed Grafana** |
+| **Windows node pool support** | ✅ | ❌ | **Azure Managed Grafana** |
+| **Multi-cluster fleet view** | ✅ | ❌ | **Azure Managed Grafana** |
+| **Azure-native flow logs / service topology** | ✅ | ❌ | **Azure Managed Grafana** |
+
+---
+
+# Feature Comparison Matrix
 
 | Feature | Grafana Cloud | Azure Managed Grafana |
 |---|:---:|:---:|
@@ -403,7 +854,7 @@ From Image 2, filtered by `k8s:network-observability`:
 
 ---
 
-## Grafana Cloud — Key Features (Grafana 13)
+# Grafana Cloud — Key Features (Grafana 13)
 
 ### Dashboards & Visualization
 
@@ -431,15 +882,6 @@ From Image 2, filtered by `k8s:network-observability`:
 - **o11y-bench (OSS)** — open benchmark for evaluating AI agents on observability tasks.
 - **Adaptive Telemetry** — filters unused metrics/logs/traces, reducing cost 35–50%.
 
-### OSS Stack (LGTM+)
-
-| Component | Version / Status | Highlights |
-|---|---|---|
-| **Loki** | 3.x (redesigned) | Kafka-backed ingestion; redesigned query engine; up to 20x less data scanned, 10x faster aggregated queries; needle-in-haystack full-text indexing (via Logline acquisition) |
-| **Tempo** | Latest | Distributed tracing, TraceQL |
-| **Mimir** | Latest | Scalable Prometheus-compatible metrics |
-| **Pyroscope** | 2.0 | Ground-up rearchitecture; stateless querying; metrics from profiles; heatmap queries; significantly lower cost |
-| **k6** | 2.0 (upcoming) | AI-assisted test authoring (`agent`, `mcp`, `docs`, `explore` subcommands); Playwright-inspired Assertions API; formalized extension ecosystem; k6 Operator 1.0 for Kubernetes distributed testing |
 
 ### Alerting & IRM
 
@@ -447,222 +889,9 @@ From Image 2, filtered by `k8s:network-observability`:
 - Full RBAC on notification policies.
 - Incident Response & Management (IRM) module.
 - SRE agent for automated root cause analysis.
-
-### Pricing Tiers (Grafana Cloud)
-
-| Tier | Details |
-|---|---|
-| **Free** | Actually useful forever-free tier; 13 months metric retention; 30 days logs/traces/profiles/k6 |
-| **Pro** | Pay-as-you-go; $8/active user/month (base); $55/user/month with Enterprise plugins |
-| **Advanced / Enterprise** | Minimum $25,000/year; BYOC (Bring Your Own Cloud) option |
-
 ---
 
-## Azure Managed Grafana — Key Features & Limitations
-
-### Strengths
-
-- **First-class Azure integration** — Azure Monitor, Azure Data Explorer, Azure Managed Prometheus, and Azure Log Analytics are all natively supported with minimal configuration.
-- **Microsoft Entra ID (AAD) SSO** — mandatory; centralized identity management; supports Conditional Access policies.
-- **Dashboard import from Azure Portal** — one-click import of existing Azure Monitor charts.
-- **Managed Identity support** — system-assigned or user-assigned (one per workspace) for secure data source authentication.
-- **Zone redundancy** — available on Standard tier with SLA.
-- **Private Link + Managed Private Endpoints** — Standard tier; restrict all traffic to private network.
-- **Deterministic outbound IPs** — Standard tier; for firewall allowlisting.
-- **Grafana Enterprise plugins** — optional add-on on Standard tier (e.g., AppDynamics, Datadog, Dynatrace, Splunk, ServiceNow, Oracle).
-- **Encryption** — data at rest (Microsoft-managed keys) and in transit (TLS 1.2).
-- **Compliance** — 50+ compliance certifications via Azure infrastructure.
-- **Billing via Azure** — fits into existing EA/MACC spending commitments.
-
-### Known Limitations
-
-| Limitation | Detail |
-|---|---|
-| **Grafana version lag** | Runs Grafana Enterprise but on Microsoft's update cadence — NOT always the latest. Grafana 13 features (AI Assistant, Git Sync, Advisor, etc.) are not yet available. |
-| **No Grafana RBAC** | Full Grafana Role-Based Access Control is disabled. Only Admin / Editor / Viewer org-level roles available. |
-| **No Server Admin role** | Customers cannot access Server Admin. Admin API, User API, and Admin Organizations API are all blocked. |
-| **No Plugin Catalog** | Cannot install, uninstall, or upgrade plugins from the Grafana Plugin Catalog. Plugins are managed by Microsoft. |
-| **Entra ID only** | All users must have Entra ID accounts. Third-party OAuth/SAML providers not natively supported. |
-| **One managed identity per workspace** | Cannot use both system-assigned and user-assigned managed identities simultaneously. |
-| **No bundled LGTM stack** | Loki, Tempo, Mimir, Pyroscope, and k6 are NOT included. You must bring your own or use Azure equivalents. |
-| **Azure Data Explorer throttling** | High-cardinality or multi-panel ADX queries may result in 50x errors or slow responses. |
-| **Current User auth limitation** | Automated background tasks (alerts, reporting) fail if no user is interactively logged in when using Current User auth. |
-| **Essential tier deprecating** | Essential (preview) tier is being retired; Microsoft recommends migrating to Standard or Azure Monitor dashboards. |
-| **No Grafana Marketplace** | Third-party plugin marketplace not available. |
-| **No AI/ML features** | Grafana Assistant, AI Observability, Adaptive Telemetry — none available. |
-| **Enterprise only via Microsoft** | CSP (Cloud Solution Provider) subscriptions cannot purchase Grafana Enterprise through Azure. |
-
-### Service Tiers
-
-| Feature | Essential (Deprecated) | Standard X1 | Standard X2 |
-|---|:---:|:---:|:---:|
-| Dashboards | 20 max | Unlimited | Unlimited |
-| Data sources | 5 max | Unlimited | Unlimited |
-| Alert rules | ❌ | 500/org | 1,000/org |
-| API keys | 2 max | 100 | 100 |
-| Zone redundancy | ❌ | ✅ | ✅ |
-| Private endpoints | ❌ | ✅ | ✅ |
-| SMTP/Reporting | ❌ | ✅ | ✅ |
-| Grafana Enterprise (optional) | ❌ | ✅ | ✅ |
-| Max instances / subscription / region | 1 | 50 | 50 |
-| SLA | ❌ | ✅ | ✅ |
-
----
-
-## Pricing Model Comparison
-
-| Aspect | Grafana Cloud | Azure Managed Grafana |
-|---|---|---|
-| **Model** | Usage-based (metrics series, log GB, trace spans, etc.) + per active user | Per-active-user + hourly compute (Standard: ~$0.043/hr/unit in Central US; Zone-redundant: ~$0.051/hr/unit) |
-| **Free tier** | Yes — forever free, meaningful limits | No (Essential deprecated; 30-day Azure trial credits only) |
-| **Cost predictability** | Variable — scales with ingestion volume | More predictable — compute + user count |
-| **Azure billing integration** | ❌ (separate Grafana Labs invoice) | ✅ (rolls into Azure subscription / EA) |
-| **Enterprise add-on** | $55/user/month (Enterprise plugins) | Optional, licensing through Microsoft |
-
----
-
-## Identity & Access Management
-
-| Capability | Grafana Cloud | Azure Managed Grafana |
-|---|---|---|
-| SSO via Entra ID / AAD | ✅ Configurable | ✅ Native, mandatory |
-| SAML / OAuth (third-party) | ✅ | ❌ |
-| Grafana RBAC | ✅ Full | ❌ Disabled |
-| Grafana Server Admin | ✅ | ❌ |
-| Team sync with Entra ID | ✅ (via config) | ✅ (Preview in sovereign clouds) |
-| Managed Identity for data sources | ✅ | ✅ (one per workspace) |
-| Conditional Access (Azure) | ❌ | ✅ |
-
----
-
-## Observability Stack Support
-
-| Signal Type | Grafana Cloud (native) | Azure Managed Grafana (native) |
-|---|---|---|
-| Metrics (Prometheus) | ✅ Mimir | ✅ Azure Managed Prometheus / Azure Monitor |
-| Logs | ✅ Loki 3.x (Kafka-backed) | ❌ (bring your own; Azure Monitor Logs via plugin) |
-| Traces | ✅ Tempo | ❌ (bring your own; Azure Monitor / App Insights via plugin) |
-| Profiles | ✅ Pyroscope 2.0 | ❌ |
-| Synthetic tests | ✅ | ❌ |
-| Performance/load testing | ✅ k6 2.0 | ❌ |
-| Azure Monitor | ✅ (plugin) | ✅ First-class native |
-| Azure Data Explorer | ✅ (plugin) | ✅ First-class (throttle caveats) |
-| Azure Log Analytics | ✅ (plugin) | ✅ |
-
----
-
-## AI Capabilities
-
-| Feature | Grafana Cloud | Azure Managed Grafana |
-|---|---|---|
-| Grafana Assistant (AI chat for dashboards/queries) | ✅ GA | ❌ |
-| AI Observability (monitor LLMs/agents) | ✅ Public Preview | ❌ |
-| AI-assisted k6 test authoring | ✅ (k6 2.0) | ❌ |
-| SRE agent for root cause analysis | ✅ | ❌ |
-| Adaptive Telemetry (AI cost optimization) | ✅ | ❌ |
-| o11y-bench (AI agent benchmarking) | ✅ OSS | ❌ |
-| Assistant via Slack / Teams | ✅ | ❌ |
-| gcx CLI for agentic workflows | ✅ | ❌ |
-
----
-
-## Plugin & Extensibility
-
-| Aspect | Grafana Cloud | Azure Managed Grafana |
-|---|---|---|
-| Plugin Catalog (self-serve install) | ✅ | ❌ |
-| Plugin auto-updates | ✅ Managed by Grafana Labs | ❌ Managed by Microsoft |
-| Grafana Enterprise plugins | ✅ (paid) | ✅ (paid, Standard only) |
-| Grafana Marketplace (ISV plugins) | ✅ Pilot phase | ❌ |
-| Custom / private plugins | ✅ | Limited |
-
----
-
-## Networking & Security
-
-| Feature | Grafana Cloud | Azure Managed Grafana |
-|---|---|---|
-| Private Link | ✅ (Enterprise) | ✅ Standard |
-| Managed Private Endpoints | ✅ | ✅ Standard |
-| Deterministic outbound IPs | ✅ | ✅ Standard |
-| Zone redundancy | ✅ | ✅ Standard |
-| TLS in transit | ✅ TLS 1.2+ | ✅ TLS 1.2 |
-| Encryption at rest | ✅ | ✅ (Microsoft-managed keys) |
-| Customer-managed keys (CMK) | ✅ Enterprise | ❌ |
-| Data residency control | ✅ (region selection) | ✅ (stored in workspace region) |
-| Compliance certifications | SOC2, ISO 27001, HIPAA, etc. | 50+ Azure certifications |
-
----
-
-## IaC / GitOps Support
-
-| Capability | Grafana Cloud | Azure Managed Grafana |
-|---|---|---|
-| Git Sync (GA) | ✅ Native in Grafana 13 | ❌ |
-| Terraform provider | ✅ (grafana/grafana) | ✅ (azurerm_dashboard_grafana) |
-| Grafana Advisor (health checks) | ✅ | ❌ |
-| API-driven dashboard management | ✅ Full API | ⚠️ Partial (Server Admin APIs blocked) |
-| Azure Resource Manager (ARM/Bicep) | ❌ | ✅ |
-
----
-
-## Service Limits & Quotas
-
-| Limit | Grafana Cloud (Pro) | Azure Managed Grafana (Standard X1) | Azure Managed Grafana (Standard X2) |
-|---|---|---|---|
-| Dashboards | Unlimited | Unlimited | Unlimited |
-| Alert rules | Unlimited | 500/instance | 1,000/instance |
-| Data sources | Unlimited | Unlimited | Unlimited |
-| Metric retention | 13 months | Depends on Azure Monitor config | Depends on Azure Monitor config |
-| Log retention | 30 days | Depends on Log Analytics workspace | Depends on Log Analytics workspace |
-| Max instances / region | N/A (SaaS) | 50/subscription | 50/subscription |
-| API keys | Unlimited | 100 | 100 |
-| Requests per IP/s | N/A | 90 req/s | 90 req/s |
-| Requests per HTTP host/s | N/A | 45 req/s | 45 req/s |
-| Data query timeout | N/A | 200 seconds | 200 seconds |
-| Image/PDF render timeout | N/A | 220 seconds | 220 seconds |
-| Data source query size | N/A | 80 MB | 80 MB |
-
----
-
-## Sovereign Cloud & Compliance
-
-| Region | Grafana Cloud | Azure Managed Grafana |
-|---|---|---|
-| Azure Government | ✅ (separate configuration) | ✅ (with limitations: no Enterprise plugins, no Essential plan) |
-| Azure China (21Vianet) | ❌ | ✅ Preview (same limitations as Gov) |
-| Standard commercial regions | ✅ Global | ✅ All major Azure regions |
-
----
-
-## Recommendation
-
-### Choose Grafana Cloud if:
-
-- You need access to the **latest Grafana features** (Grafana 13, AI Assistant, Git Sync, Advisor, Marketplace).
-- Your stack is **multi-cloud or hybrid** (AWS + Azure + GCP, on-prem).
-- You need the **full LGTM+ stack** (Loki, Tempo, Mimir, Pyroscope, k6) under one roof.
-- You need **full RBAC** and self-serve **plugin management**.
-- You are building or monitoring **AI/agentic applications** (AI Observability, o11y-bench).
-- Your team is small and the **free tier** is valuable for getting started.
-- You want **GitOps/IaC** workflows for dashboard management (Git Sync).
-
-### Choose Azure Managed Grafana if:
-
-- Your primary observability signals live in **Azure Monitor, Azure Data Explorer, or Azure Log Analytics**.
-- Your organization is **Entra ID-first** and needs Conditional Access enforcement.
-- You need dashboards to **roll into Azure billing** (EA/MACC commitments).
-- You want a **simple, managed Grafana** with minimal ops overhead and strong Azure SLA guarantees.
-- Your compliance posture requires **Azure-native certifications** and data residency guarantees.
-- You are already using **Azure Managed Prometheus** and want a co-located UI.
-
-### Hybrid Approach (Recommended for Azure-heavy teams)
-
-Use **Azure Managed Grafana** for your Azure-native dashboards and Azure Monitor signals (leveraging its first-class ADX/Monitor integration and Entra ID SSO), while using **Grafana Cloud** (or connecting your Azure Managed Grafana to Grafana Cloud) to access Grafana Assistant for AI-driven analysis, query building, and incident response. Grafana Cloud's Assistant plugin can connect to a self-managed or Azure-hosted Grafana instance via one-click setup, giving you the best of both worlds.
-
----
-
-## References
+# References
 
 - [Grafana 13 Release & GrafanaCON 2026 Announcements](https://grafana.com/blog/grafanacon-2026-announcements/)
 - [Azure Managed Grafana Overview — Microsoft Learn](https://learn.microsoft.com/en-us/azure/managed-grafana/overview)

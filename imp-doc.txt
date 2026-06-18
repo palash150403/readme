@@ -1,0 +1,1837 @@
+I will be giving you all the metrics of buitlin dahboards of azure maneged grafna and grafana cloud. pls help me make a comparion of each resources basded on hte metric they have buitlin and which one is better and what all parameters they give mterics.
+
+
+
+
+
+this is from azure manngef grafana.
+
+Kubernetes / Compute Resources / Cluster
+
+Cluster Metrics
+
+├── CPU
+
+│   ├── CPU Utilisation
+
+│   ├── CPU Requests Commitment
+
+│   ├── CPU Limits Commitment
+
+│   ├── CPU Usage
+
+│   │   └── By Namespace
+
+│   └── CPU Quota
+
+│       ├── CPU Usage
+
+│       ├── CPU Requests
+
+│       ├── CPU Requests %
+
+│       ├── CPU Limits
+
+│       └── CPU Limits %
+
+│
+
+├── Memory
+
+│   ├── Memory Utilisation
+
+│   ├── Memory Requests Commitment
+
+│   ├── Memory Limits Commitment
+
+│   ├── Memory Usage
+
+│   │   └── By Namespace
+
+│   └── Memory Requests by Namespace
+
+│       ├── Memory Usage
+
+│       ├── Memory Requests
+
+│       ├── Memory Requests %
+
+│       ├── Memory Limits
+
+│       └── Memory Limits %
+
+│
+
+├── Network
+
+│   ├── Current Network Usage
+
+│   │   ├── Current Receive Bandwidth
+
+│   │   ├── Current Transmit Bandwidth
+
+│   │   ├── Rate of Received Packets
+
+│   │   ├── Rate of Transmitted Packets
+
+│   │   ├── Rate of Received Packets Dropped
+
+│   │   └── Rate of Transmitted Packets Dropped
+
+│   │
+
+│   ├── Receive Bandwidth
+
+│   ├── Transmit Bandwidth
+
+│   ├── Average Container Bandwidth by Namespace
+
+│   │   ├── Received
+
+│   │   └── Transmitted
+
+│   ├── Rate of Received Packets
+
+│   ├── Rate of Transmitted Packets
+
+│   ├── Rate of Received Packets Dropped
+
+│   └── Rate of Transmitted Packets Dropped
+
+│
+
+└── Storage
+
+    ├── IOPS (Reads + Writes)
+
+    ├── Throughput (Read + Write)
+
+    └── Current Storage IO
+
+
+
+Kubernetes / Compute Resources / Namespace (Pods)
+
+Cluster Metrics
+
+├── CPU
+
+│   ├── CPU Utilisation (from requests)
+
+│   ├── CPU Utilisation (from limits)
+
+│   ├── CPU Usage
+
+│   └── CPU Quota
+
+│
+
+├── Memory
+
+│   ├── Memory Utilisation (from requests)
+
+│   ├── Memory Utilisation (from limits)
+
+│   ├── Memory Usage (w/o cache)
+
+│   └── Memory Quota
+
+│
+
+├── Network
+
+│   ├── Current Network Usage
+
+│   ├── Receive Bandwidth
+
+│   ├── Transmit Bandwidth
+
+│   ├── Rate of Received Packets
+
+│   ├── Rate of Transmitted Packets
+
+│   ├── Rate of Received Packets Dropped
+
+│   └── Rate of Transmitted Packets Dropped
+
+│
+
+└── Storage
+
+    ├── IOPS (Reads + Writes)
+
+    ├── Throughput (Read + Write)
+
+    └── Current Storage IO
+
+
+
+Kubernetes / Kubelet
+
+Kubelet Summary
+
+├── Running Kubelets
+
+├── Running Pods
+
+├── Running Containers
+
+├── Actual Volume Count
+
+├── Desired Volume Count
+
+├── Config Error Count
+
+│
+
+├── Operations
+
+│   ├── Operation Rate
+
+│   ├── Operation Error Rate
+
+│   └── Operation Duration (99th Quantile)
+
+│
+
+├── Pod Lifecycle
+
+│   ├── Pod Start Rate
+
+│   └── Pod Start Duration
+
+│
+
+├── Storage
+
+│   ├── Storage Operation Rate
+
+│   ├── Storage Operation Error Rate
+
+│   └── Storage Operation Duration (99th Quantile)
+
+│
+
+├── Cgroup
+
+│   ├── Cgroup Manager Operation Rate
+
+│   └── Cgroup Manager 99th Quantile
+
+│
+
+├── PLEG (Pod Lifecycle Event Generator)
+
+│   ├── PLEG Relist Rate
+
+│   ├── PLEG Relist Interval
+
+│   └── PLEG Relist Duration
+
+│
+
+├── API / RPC
+
+│   ├── RPC Rate
+
+│   └── Request Duration (99th Quantile)
+
+│
+
+├── Resource Usage
+
+│   ├── Memory
+
+│   └── CPU Usage
+
+│
+
+└── Runtime
+
+    └── Goroutines
+
+
+
+Kubernetes / Compute Resources / Workload
+
+Pod Resources
+
+├── CPU
+
+│   ├── CPU Usage
+
+│   └── CPU Quota
+
+│
+
+├── Memory
+
+│   ├── Memory Usage
+
+│   └── Memory Quota
+
+│
+
+└── Network
+
+    ├── Current Network Usage
+
+    ├── Receive Bandwidth
+
+    ├── Transmit Bandwidth
+
+    ├── Average Container Bandwidth by Pod: Received
+
+    ├── Average Container Bandwidth by Pod: Transmitted
+
+    ├── Rate of Received Packets
+
+    ├── Rate of Transmitted Packets
+
+    ├── Rate of Received Packets Dropped
+
+    └── Rate of Transmitted Packets Dropped
+
+
+
+Kubernetes / Compute Resources / Pod
+
+Pod / Container Resources
+
+├── CPU
+
+│   ├── CPU Usage
+
+│   ├── CPU Throttling
+
+│   └── CPU Quota
+
+│
+
+├── Memory
+
+│   ├── Memory Usage (WSS)
+
+│   └── Memory Quota
+
+│
+
+├── Network
+
+│   ├── Receive Bandwidth
+
+│   ├── Transmit Bandwidth
+
+│   ├── Rate of Received Packets
+
+│   ├── Rate of Transmitted Packets
+
+│   ├── Rate of Received Packets Dropped
+
+│   └── Rate of Transmitted Packets Dropped
+
+│
+
+└── Storage
+
+    ├── IOPS (Pod)
+
+    ├── ThroughPut (Pod)
+
+    ├── IOPS (Containers)
+
+    ├── ThroughPut (Containers)
+
+    └── Current Storage IO
+
+
+
+Kubernetes / Compute Resources / Node (Pods)
+
+Node Pods / System Pods Resources
+
+├── CPU
+
+│   ├── CPU Usage
+
+│   └── CPU Quota
+
+│
+
+└── Memory
+
+    ├── Memory Usage (w/o cache)
+
+    └── Memory Quota
+
+
+
+Kubernetes / Compute Resources / Namespace (Workloads)
+
+Workload Resources
+
+├── CPU
+
+│   ├── CPU Usage
+
+│   └── CPU Quota
+
+│
+
+├── Memory
+
+│   ├── Memory Usage
+
+│   └── Memory Quota
+
+│
+
+└── Network
+
+    ├── Current Network Usage
+
+    ├── Receive Bandwidth
+
+    ├── Transmit Bandwidth
+
+    ├── Average Container Bandwidth by Workload: Received
+
+    ├── Average Container Bandwidth by Workload: Transmitted
+
+    ├── Rate of Received Packets
+
+    ├── Rate of Transmitted Packets
+
+    ├── Rate of Received Packets Dropped
+
+    └── Rate of Transmitted Packets Dropped
+
+
+
+Kubernetes / Networking / Pod Flows (Workload)
+
+Workload Network Snapshot
+
+├── Traffic Summary
+
+│   ├── Pods with Outgoing Traffic (past 10 minutes)
+
+│   ├── Max Outgoing Traffic
+
+│   ├── Min Outgoing Traffic
+
+│   ├── Pods with Incoming Traffic (past 10 minutes)
+
+│   ├── Max Incoming Traffic
+
+│   └── Min Incoming Traffic
+
+│
+
+├── Drops
+
+│   ├── Pods with Outgoing Drops (past 10 minutes)
+
+│   ├── Max Outgoing Drops
+
+│   ├── Min Outgoing Drops
+
+│   ├── Pods with Incoming Drops (past 10 minutes)
+
+│   ├── Max Incoming Drops
+
+│   └── Min Incoming Drops
+
+│
+
+├── Flows
+
+│   ├── Outgoing Traffic by Trace Type
+
+│   ├── Incoming Traffic by Trace Type
+
+│   ├── Outgoing Traffic by Verdict
+
+│   ├── Incoming Traffic by Verdict
+
+│   ├── Heatmap of Outgoing Traffic for Top Source Pods
+
+│   ├── Heatmap of Incoming Traffic for Top Destination Pods
+
+│   ├── Stacked (Total) Outgoing Traffic by Source Pod
+
+│   └── Stacked (Total) Incoming Traffic by Destination Pod
+
+│
+
+├── Drops (Flow Level)
+
+│   ├── Heatmap of Outgoing Drops for Top Source Pods
+
+│   ├── Heatmap of Incoming Drops for Top Destination Pods
+
+│   ├── Stacked (Total) Outgoing Drops by Source Pod
+
+│   └── Stacked (Total) Incoming Drops by Destination Pod
+
+│
+
+└── TCP Analysis
+
+    ├── RST
+
+    │   ├── Pods with Outgoing RST (past 10 minutes)
+
+    │   ├── Max Outgoing RST Packets
+
+    │   ├── Min Outgoing RST
+
+    │   ├── Pods with Incoming RST (past 10 minutes)
+
+    │   ├── Max Incoming RST Packets
+
+    │   ├── Min Incoming RST
+
+    │   ├── Heatmap of Outgoing TCP RST by Top Source Pods
+
+    │   ├── Heatmap of Incoming TCP RST by Top Destination Pods
+
+    │   ├── Stacked (Total) Outgoing TCP RST by Source Pod
+
+    │   └── Stacked (Total) Incoming TCP RST by Destination Pod
+
+    │
+
+    └── FIN
+
+        ├── Pods with Outgoing FIN (past 10 minutes)
+
+        ├── Max Outgoing FIN Packets
+
+        ├── Min Outgoing FIN
+
+        ├── Pods with Incoming FIN (past 10 minutes)
+
+        ├── Max Incoming FIN Packets
+
+        ├── Min Incoming FIN
+
+        ├── Heatmap of Outgoing TCP FIN by Top Source Pods
+
+        ├── Heatmap of Incoming TCP FIN by Top Destination Pods
+
+        ├── Stacked (Total) Outgoing TCP FIN by Source Pod
+
+        └── Stacked (Total) Incoming TCP FIN by Destination Pod
+
+Kubernetes / Networking / Pod Flows (Namespace)
+
+Namespace Network Overview
+
+├── Top Namespaces
+
+│   ├── Top Source Namespaces (Outgoing Traffic)
+
+│   ├── Top Destination Namespaces (Incoming Traffic)
+
+│   ├── Top Namespaces with Outgoing Drops
+
+│   └── Top Namespaces with Incoming Drops
+
+│
+
+├── Namespace Snapshot
+
+│   ├── Pods with Outgoing Traffic (past 10 minutes)
+
+│   ├── Max Outgoing Traffic
+
+│   ├── Min Outgoing Traffic
+
+│   ├── Pods with Incoming Traffic (past 10 minutes)
+
+│   ├── Max Incoming Traffic
+
+│   ├── Min Incoming Traffic
+
+│   ├── Pods with Outgoing Drops (past 10 minutes)
+
+│   ├── Max Outgoing Drops
+
+│   ├── Min Outgoing Drops
+
+│   ├── Pods with Incoming Drops (past 10 minutes)
+
+│   ├── Max Incoming Drops
+
+│   └── Min Incoming Drops
+
+│
+
+├── Flows (per Namespace)
+
+│   ├── Outgoing Traffic by Trace Type
+
+│   ├── Incoming Traffic by Trace Type
+
+│   ├── Outgoing Traffic by Verdict
+
+│   ├── Incoming Traffic by Verdict
+
+│   ├── Heatmap of Outgoing Traffic for Top Source Pods
+
+│   ├── Heatmap of Incoming Traffic for Top Destination Pods
+
+│   ├── Stacked (Total) Outgoing Traffic by Source Pod
+
+│   └── Stacked (Total) Incoming Traffic by Destination Pod
+
+│
+
+├── Drops (per Namespace)
+
+│   ├── Heatmap of Outgoing Drops for Top Source Pods
+
+│   ├── Heatmap of Incoming Drops for Top Destination Pods
+
+│   ├── Stacked (Total) Outgoing Drops by Source Pod
+
+│   └── Stacked (Total) Incoming Drops by Destination Pod
+
+│
+
+└── TCP (per Namespace)
+
+    ├── RST
+
+    │   ├── Pods with Outgoing RST (past 10 minutes)
+
+    │   ├── Max Outgoing RST Packets
+
+    │   ├── Min Outgoing RST
+
+    │   ├── Pods with Incoming RST (past 10 minutes)
+
+    │   ├── Max Incoming RST Packets
+
+    │   ├── Min Incoming RST
+
+    │   ├── Heatmap of Outgoing TCP RST by Top Source Pods
+
+    │   ├── Heatmap of Incoming TCP RST by Top Destination Pods
+
+    │   ├── Stacked (Total) Outgoing TCP RST by Source Pod
+
+    │   └── Stacked (Total) Incoming TCP RST by Destination Pod
+
+    │
+
+    └── FIN
+
+        ├── Pods with Outgoing FIN (past 10 minutes)
+
+        ├── Max Outgoing FIN Packets
+
+        ├── Min Outgoing FIN
+
+        ├── Pods with Incoming FIN (past 10 minutes)
+
+        ├── Max Incoming FIN Packets
+
+        ├── Min Incoming FIN
+
+        ├── Heatmap of Outgoing TCP FIN by Top Source Pods
+
+        ├── Heatmap of Incoming TCP FIN by Top Destination Pods
+
+        ├── Stacked (Total) Outgoing TCP FIN by Source Pod
+
+        └── Stacked (Total) Incoming TCP FIN by Destination Pod
+
+Kubernetes / Networking / L7 (Workload)
+
+Workload L7 Snapshot
+
+├── HTTP Metrics
+
+│   ├── Success Rate
+
+│   │   ├── Outgoing HTTP Request Success Rate (non-4xx responses)
+
+│   │   └── Incoming HTTP Request Success Rate (non-5xx responses)
+
+│   │
+
+│   ├── Request Volume (Pods)
+
+│   │   ├── Pods with Outgoing HTTP Requests (past 10 minutes)
+
+│   │   ├── Pods with Incoming HTTP Requests (past 10 minutes)
+
+│   │   ├── Pods with Outgoing HTTP Requests that returned 4xx Errors
+
+│   │   └── Pods with Incoming HTTP Requests that returned 5xx Errors
+
+│   │
+
+│   ├── Traffic Breakdown (Flows)
+
+│   │   ├── Outgoing HTTP Traffic by Verdict
+
+│   │   ├── Incoming HTTP Traffic by Verdict
+
+│   │   ├── Stacked (Total) Outgoing HTTP Requests by Source Pod
+
+│   │   ├── Stacked (Total) Incoming HTTP Requests by Destination Pod
+
+│   │   ├── Stacked (Total) Outgoing HTTP HTTP Drops by Source Pod
+
+│   │   ├── Stacked (Total) Incoming HTTP Drops by Destination Pod
+
+│   │   ├── Outgoing HTTP Requests by method and status count
+
+│   │   └── Incoming HTTP Requests by method and status count
+
+│
+
+├── Kafka Metrics
+
+│   ├── Success Rate
+
+│   │   ├── Outgoing Kafka Request Success Rate (zero error code)
+
+│   │   └── Incoming Kafka Request Success Rate (zero error code)
+
+│   │
+
+│   ├── Request Volume (Pods)
+
+│   │   ├── Pods with Outgoing Kafka Requests (past 10 minutes)
+
+│   │   ├── Pods with Incoming Kafka Requests (past 10 minutes)
+
+│   │   ├── Pods with Outgoing Kafka Requests that returned non-zero errors
+
+│   │   └── Pods with Incoming Kafka Requests that returned non-zero errors
+
+│   │
+
+│   ├── Traffic Breakdown (Flows)
+
+│   │   ├── Outgoing Kafka Traffic by Verdict
+
+│   │   ├── Incoming Kafka Traffic by Verdict
+
+│   │   ├── Stacked (Total) Outgoing Kafka Requests by Source Pod
+
+│   │   ├── Stacked (Total) Incoming Kafka Requests by Destination Pod
+
+│   │   ├── Stacked (Total) Outgoing Kafka Drops by Source Pod
+
+│   │   ├── Stacked (Total) Incoming Kafka Drops by Destination Pod
+
+│   │   ├── Outgoing Kafka Requests by Topic and API Key
+
+│   │   └── Incoming Kafka Requests by Topic and API Key
+
+
+
+Kubernetes / Networking / L7 (Namespace)
+
+L7 Snapshot Dashboard
+
+├── Snapshot Metrics
+
+│   ├── Outgoing HTTP Request Success Rate (non-4xx responses)
+
+│   ├── Incoming HTTP Request Success Rate (non-5xx responses)
+
+│   ├── Outgoing Kafka Request Success Rate (zero error code)
+
+│   └── Incoming Kafka Request Success Rate (zero error code)
+
+│
+
+├── HTTP Traffic Info
+
+│   ├── Traffic Overview
+
+│   │   ├── Outgoing HTTP Traffic by Verdict
+
+│   │   └── Incoming HTTP Traffic by Verdict
+
+│   │
+
+│   ├── Request Breakdown
+
+│   │   ├── Outgoing HTTP Requests by method and status count
+
+│   │   └── Incoming HTTP Requests by method and status count
+
+│   │
+
+│   ├── Pod-Level Traffic
+
+│   │   ├── Incoming HTTP Requests for Top 10 Source Pods
+
+│   │   ├── Outgoing HTTP Requests for Top 10 Source Pods
+
+│   │   ├── Heatmap of Dropped Incoming HTTP Requests (Top 10 Destination Pods)
+
+│   │   └── Heatmap of Dropped Outgoing HTTP Requests (Top 10 Source Pods)
+
+│   │
+
+│   ├── Error Heatmaps
+
+│   │   ├── Heatmap of Pods with Outgoing HTTP Requests that returned 4xx Errors
+
+│   │   └── Heatmap of Pods with Incoming HTTP Requests that returned 5xx Errors
+
+│
+
+├── Kafka Traffic Info
+
+│   ├── Traffic Overview
+
+│   │   ├── Outgoing Kafka Traffic by Verdict
+
+│   │   └── Incoming Kafka Traffic by Verdict
+
+│   │
+
+│   ├── Topic-Level Breakdown
+
+│   │   ├── Outgoing Kafka Requests by Topic and API Key
+
+│   │   └── Incoming Kafka Traffic by Topic and API Key
+
+│   │
+
+│   ├── Pod-Level Traffic
+
+│   │   ├── Incoming Kafka Requests for Top 10 Source Pods
+
+│   │   ├── Outgoing Kafka Requests for Top 10 Source Pods
+
+│   │   ├── Heatmap of Dropped Incoming Kafka Requests (Top 10 Destination Pods)
+
+│   │   └── Heatmap of Dropped Outgoing Kafka Requests (Top 10 Source Pods)
+
+│   │
+
+│   ├── Error Heatmaps
+
+│   │   ├── Heatmap of Pods with Outgoing Kafka Requests that returned non-zero errors
+
+│   │   └── Heatmap of Pods with Incoming Kafka Requests that returned non-zero errors
+
+
+
+Kubernetes / Networking / Drops (Workload)
+
+Workload Drops Snapshot
+
+├── Snapshot Metrics
+
+│   ├── Pods with Outgoing Drops (past 10 minutes)
+
+│   ├── Max Outgoing Drops
+
+│   ├── Min Outgoing Drops
+
+│   ├── Pods with Incoming Drops (past 10 minutes)
+
+│   ├── Max Incoming Drops
+
+│   ├── Min Incoming Drops
+
+│
+
+├── Drops Breakdown
+
+│   ├── Dropped Outgoing Traffic by Reason
+
+│   ├── Dropped Incoming Traffic by Reason
+
+│
+
+├── Pod-Level Aggregations
+
+│   ├── Stacked (Total) Outgoing Drops by Source Pod
+
+│   └── Stacked (Total) Incoming Drops by Destination Pod
+
+│
+
+└── Heatmaps
+
+    ├── Heatmap of Outgoing Drops for Top Source Pods
+
+    └── Heatmap of Incoming Drops for Top Destination Pods
+
+
+
+Kubernetes / Networking / DNS (Workload)
+
+Workload DNS Snapshot
+
+├── Snapshot Metrics
+
+│   ├── DNS Requests and Responses
+
+│   ├── DNS Errors
+
+│   └── DNS Errors by Node
+
+│
+
+├── Workload-Level DNS Insights
+
+│   ├── DNS Response IPs Returned
+
+│   ├── DNS Missing Response by Query Type
+
+│   ├── Top DNS Queries (Requests)
+
+│   └── Top DNS Queries (Responses)
+
+│
+
+└── Pod-Level DNS Insights
+
+    ├── Top Pods with DNS Errors
+
+    └── Pods with the Most Requests
+
+
+
+Kubernetes / Networking / DNS (Cluster)
+
+Cluster DNS Snapshot
+
+├── Snapshot Metrics
+
+│   ├── DNS Requests and Responses
+
+│   ├── DNS Errors
+
+│   └── DNS Errors by Node
+
+│
+
+├── Cluster-Level DNS Insights
+
+│   ├── DNS Response IPs Returned
+
+│   ├── DNS Missing Response by Query Type
+
+│   ├── Top DNS Queries (Requests)
+
+│   ├── Top DNS Queries (Responses)
+
+│   └── DNS Response Table
+
+│
+
+└── Pod-Level DNS Insights (All Namespaces)
+
+    ├── Top Pods with DNS Errors
+
+    └── Pods with the Most Requests
+
+
+
+Kubernetes / Networking / Clusters
+
+Fleet View
+
+├── Cluster Overview (Fleet-Level)
+
+│   ├── Current Traffic by Cluster
+
+│   │   ├── Bytes Forwarded
+
+│   │   └── Bytes Forwarded by Cluster
+
+│   │
+
+│   ├── Dropped Traffic by Cluster
+
+│   │   ├── Current Dropped Traffic by Cluster
+
+│   │   ├── Bytes Dropped
+
+│   │   ├── Bytes Dropped by Cluster
+
+│   │   └── Packets Dropped By Cluster
+
+│
+
+├── Cluster Detail (palash-new-poc-aks)
+
+│   ├── Traffic
+
+│   │   ├── Max Egress Bytes
+
+│   │   ├── Min Egress Bytes
+
+│   │   ├── Max Egress Packets
+
+│   │   ├── Min Egress Packets
+
+│   │   ├── Max Ingress Bytes
+
+│   │   ├── Min Ingress Bytes
+
+│   │   ├── Max Ingress Packets
+
+│   │   ├── Min Ingress Packets
+
+│   │   ├── Egress Bytes
+
+│   │   ├── Egress Packets
+
+│   │   ├── Ingress Bytes
+
+│   │   └── Ingress Packets
+
+│
+
+│   ├── Drops
+
+│   │   ├── Packets Dropped - Egress
+
+│   │   ├── Packets Dropped - Ingress
+
+│   │   ├── Packets Dropped - Unknown
+
+│   │   ├── Bytes Dropped by Reason
+
+│   │   ├── Packets Dropped by Reason
+
+│   │   ├── Bytes Dropped by Node
+
+│   │   └── Packets Dropped by Node
+
+│
+
+│   ├── Connections
+
+│   │   └── (9 panels)
+
+│
+
+│   └── Interfaces / Nodes
+
+│       ├── RX Packets by Interface
+
+│       ├── TX Packets by Interface
+
+│       ├── Rx Cache Full error
+
+│       ├── Tx No Op Errors
+
+│       ├── Dropped Rx Packets
+
+│       ├── Dropped Tx Packets
+
+│       ├── Rx Comp Full Errors
+
+│       └── Tx Send Full Errors
+
+Azure / Insights / Containers / Networking / Flow Logs - Analytics Tier
+
+Connection Graph (Service Topology)
+
+├── Graph View (Main Visualization)
+
+│   ├── Total Flow Logs (requests and responses)
+
+│   ├── Requests (forwarded)
+
+│   ├── Responses (forwarded)
+
+│   ├── Dropped Requests
+
+│   ├── DNS Response Errors
+
+│   └── HTTP Response Errors
+
+│
+
+├── Flow Logs Tables
+
+│   ├── All Flow Logs (first 1000)
+
+│   └── Error Logs (first 1000)
+
+│
+
+├── Topology Analytics
+
+│   ├── Top Namespaces
+
+│   │   ├── Top Requests (forwarded)
+
+│   │   ├── Top Dropped Requests
+
+│   │   ├── Top DNS Response Errors
+
+│   │   └── Top HTTP Response Errors
+
+│   │
+
+│   ├── Top Workloads
+
+│   │   ├── Top Requests (forwarded)
+
+│   │   ├── Top Dropped Requests
+
+│   │   ├── Top DNS Response Errors
+
+│   │   └── Top HTTP Response Errors
+
+│   │
+
+│   ├── Top Workloads by Port/Query
+
+│   │   ├── Top Requests (TCP and/or UDP) (forwarded)
+
+│   │   ├── Top Dropped Requests
+
+│   │   ├── Top DNS Response Errors
+
+│   │   └── Top HTTP Response Errors
+
+│
+
+└── Protocol Summary
+
+    ├── Requests (forwarded)
+
+    ├── Dropped Requests
+
+    ├── DNS Responses by Error
+
+    └── HTTP Responses by Error
+
+
+
+Now these are metrics for grafana cloud.
+
+
+
+Namespace Leve;:
+
+CPU
+
+CPU Optimization & Alerting (p95-based)
+
+├── Alerting
+
+│   └── Alerts: Firing (p95)
+
+│
+
+├── Scheduling Efficiency
+
+│   └── Containers with CPU requests set (p95)
+
+│
+
+├── Alignment Analysis
+
+│   ├── Alignment: usage/requests (p95)
+
+│   └── Alignment: Workload Usage/Requests (%)
+
+│
+
+├── CPU Overview
+
+│   └── Overview: usage (vCPU cores)
+
+│
+
+├── Workload Distribution
+
+│   └── Distribution: Workload usage (cores, stacked)
+
+│
+
+└── Workloads
+
+    └── (list view / table)
+
+Memory
+
+Memory Optimization & Alerting (p95-based)
+
+├── Alerting
+
+│   └── Alerts: Firing (p95)
+
+│
+
+├── Scheduling Efficiency
+
+│   └── Containers with Memory requests set (p95)
+
+│
+
+├── Alignment Analysis
+
+│   ├── Alignment: usage/requests (p95)
+
+│   └── Alignment: Workload Usage/Requests (%)
+
+│
+
+├── Memory Overview
+
+│   └── Overview: usage (memory bytes)
+
+│
+
+├── Workload Distribution
+
+│   └── Distribution: Workload usage (bytes, stacked)
+
+│
+
+└── Workloads
+
+    └── (list view / table)
+
+Network
+
+
+
+Network Bandwidth
+
+Network Saturation
+
+Network Bandwidth by workload
+
+Network Saturation by workload
+
+
+
+Storage
+
+
+
+Storage (PVC / PV Observability)
+
+├── Storage Classes & Capacity
+
+│   └── PVC Storage Class
+
+│
+
+├── Volume Capacity
+
+│   ├── PVC Volume Bytes
+
+│   └── PVC Volume bytes by workload (avg)
+
+│
+
+├── Inode Usage
+
+│   ├── PVC Volume inodes
+
+│   └── PVC Volume inodes by workload (avg)
+
+│
+
+├── Status Monitoring
+
+│   ├── PVC Status
+
+│   └── PV Status
+
+│
+
+├── Performance Metrics
+
+│   ├── Throughput
+
+│   ├── Throughput by workload
+
+│   ├── IOPS
+
+│   └── IOPS by workload
+
+
+
+
+
+For Cluster Level:
+
+
+
+CPU:
+
+Efficiency: requests/capacity (p95)
+
+Efficiency: usage/capacity (p95)
+
+Efficiency: usage/requests (p95)
+
+Overview: usage (vCPU cores)
+
+Sum of container CPU limits
+
+Physical capacity of cluster
+
+Sum of container CPU requests
+
+Sum of container CPU usage
+
+Distribution: node usage/cluster capacity (%, stacked)
+
+Efficiency: node usage/node Capacity (%)
+
+Overview: Usage by namespace (vCPU cores)
+
+Distribution: namespace usage/cluster capacity (%, stacked)
+
+Alignment: namespace usage/requests (%)
+
+
+
+Memory:
+
+Efficiency: requests/capacity (p95)
+
+Efficiency: usage/capacity (p95)
+
+Efficiency: usage/requests (p95)
+
+Overview: usage (memory bytes)
+
+Physical capacity of cluster
+
+Sum of container Memory limits
+
+Sum of container Memory usage
+
+Sum of container Memory requests
+
+Distribution: node usage/cluster capacity (%, stacked)
+
+Efficiency: node usage/node Capacity (%)
+
+Overview: Usage by namespace (memory bytes)
+
+Distribution: namespace usage/cluster capacity (%, stacked)
+
+Alignment: namespace usage/requests (%)
+
+
+
+GPU:
+
+Utilization: GPU
+
+Utilization: Tensor Core
+
+Utilization: Encoder
+
+Utilization: Decoder
+
+Cluster GPU Utilization
+
+Tensor Core Utilization
+
+Encoder Utilization
+
+Decoder Utilization
+
+GPU Power
+
+Warning Threshold
+
+Error Threshold
+
+GPU Temperature
+
+
+
+Network:
+
+Network Bandwidth (Rx Min / 90th / Max)
+
+Network Bandwidth (Tx Min / 90th / Max)
+
+Network Saturation (Rx dropped packets)
+
+Network Saturation (Tx dropped packets)
+
+Network Bandwidth by node (Rx)
+
+Network Bandwidth by node (Tx)
+
+Network Saturation by node
+
+
+
+Storage
+
+PVC Storage Class
+
+PVC Volume Bytes
+
+PVC Volume bytes by namespace (avg)
+
+PVC Volume inodes
+
+PVC Volume inodes by namespace (avg)
+
+PVC Status
+
+PV Status
+
+Throughput (read/write)
+
+Throughput by namespace (grafana-system, default)
+
+IOPS (read/write)
+
+IOPS by namespace
+
+
+
+Energy:
+
+Energy usage total (1h)
+
+Package energy (min/mean/max)
+
+DRAM energy (min/mean/max)
+
+Other energy
+
+Energy usage by node (1h)
+
+Energy usage by namespace (1h)
+
+
+
+
+
+
+
+now for node levell:
+
+CPU:
+
+Efficiency: requests/capacity (p95)
+
+Efficiency: usage/capacity (p95)
+
+Efficiency: usage/requests (p95)
+
+Physical capacity of node
+
+Sum of container CPU limits
+
+Sum of container CPU usage
+
+Sum of container CPU requests
+
+Distribution: pod usage/node capacity (% stacked)
+
+Pod usage/requests (%)
+
+
+
+Memeory:
+
+Efficiency: requests/capacity (p95)
+
+Efficiency: usage/capacity (p95)
+
+Efficiency: usage/requests (p95)
+
+Physical capacity of node
+
+Sum of container Memory limits
+
+Sum of container Memory usage
+
+Sum of container Memory requests
+
+Distribution: pod usage/node capacity (% stacked)
+
+Pod usage/requests (%)
+
+
+
+GPU:
+
+GPU Utilization
+
+Tensor Core Utilization
+
+Encoder Utilization
+
+Decoder Utilization
+
+Cluster GPU Utilization
+
+GPU Utilization by Node
+
+GPU Power
+
+GPU Temperature
+
+PCIe Data
+
+PCIe Replay Counter
+
+
+
+Network:
+
+Network Bandwidth (Rx Min / 90th / Max)
+
+Network Bandwidth (Tx Min / 90th / Max)
+
+Network Saturation (Rx dropped packets)
+
+Network Saturation (Tx dropped packets)
+
+Network Bandwidth by node (Rx)
+
+Network Bandwidth by node (Tx)
+
+Network Saturation by node
+
+
+
+Storage:
+
+PVC Storage Class
+
+PVC Volume Bytes
+
+PVC Volume bytes by pod (avg)
+
+PVC Volume inodes
+
+PVC Volume inodes by pod (avg)
+
+PVC Status
+
+PV Status
+
+Throughput (read/write)
+
+Throughput by pod
+
+IOPS (read/write)
+
+IOPS by pod
+
+
+
+Energy:
+
+Energy usage (1h)
+
+Energy usage by pod (1h)
+
+
+
+
+
+For workload level:
+
+CPU:
+
+Efficiency: requests/capacity (p95)
+
+Efficiency: usage/capacity (p95)
+
+Efficiency: usage/requests (p95)
+
+Physical capacity of node
+
+Sum of container CPU limits
+
+Sum of container CPU usage
+
+Sum of container CPU requests
+
+Distribution: Container usage/Container capacity (% stacked)
+
+Container usage/requests (%)
+
+
+
+Memeory:
+
+Efficiency: requests/capacity (p95)
+
+Efficiency: usage/capacity (p95)
+
+Efficiency: usage/requests (p95)
+
+Physical capacity of node
+
+Sum of container Memory limits
+
+Sum of container Memory usage
+
+Sum of container Memory requests
+
+Distribution: pod usage/node capacity (% stacked)
+
+Pod usage/requests (%)
+
+
+
+GPU:
+
+GPU Utilization
+
+Tensor Core Utilization
+
+Encoder Utilization
+
+Decoder Utilization
+
+Cluster GPU Utilization
+
+GPU Utilization by Node
+
+GPU Power
+
+GPU Temperature
+
+PCIe Data
+
+PCIe Replay Counter
+
+
+
+Network:
+
+Network Bandwidth (Rx Min / 90th / Max)
+
+Network Bandwidth (Tx Min / 90th / Max)
+
+Network Saturation (Rx dropped packets)
+
+Network Saturation (Tx dropped packets)
+
+Network Bandwidth by node (Rx)
+
+Network Bandwidth by node (Tx)
+
+Network Saturation by node
+
+
+
+Storage:
+
+PVC Storage Class
+
+PVC Volume Bytes
+
+PVC Volume bytes by pod (avg)
+
+PVC Volume inodes
+
+PVC Volume inodes by pod (avg)
+
+PVC Status
+
+PV Status
+
+Throughput (read/write)
+
+Throughput by pod
+
+IOPS (read/write)
+
+IOPS by pod
+
+
+
+Energy:
+
+Energy usage (1h)
+
+Energy usage by pod (1h)
+
+
+
+For pod level:
+
+CPU:
+
+Efficiency: requests/capacity (p95)
+
+Efficiency: usage/capacity (p95)
+
+Efficiency: usage/requests (p95)
+
+Physical capacity of node
+
+Sum of container CPU limits
+
+Sum of container CPU usage
+
+Sum of container CPU requests
+
+Distribution: pod usage/node capacity (% stacked)
+
+Pod usage/requests (%)
+
+
+
+Memeory:
+
+Efficiency: requests/capacity (p95)
+
+Efficiency: usage/capacity (p95)
+
+Efficiency: usage/requests (p95)
+
+Physical capacity of node
+
+Sum of container Memory limits
+
+Sum of container Memory usage
+
+Sum of container Memory requests
+
+Distribution: Container usage/node capacity (% stacked)
+
+Container usage/requests (%)
+
+
+
+
+
+Network:
+
+Network Bandwidth (Rx Min / 90th / Max)
+
+Network Bandwidth (Tx Min / 90th / Max)
+
+Network Saturation (Rx dropped packets)
+
+Network Bandwidth by interface 
+
+Network Saturation by interface
+
+
+
+Storage:
+
+PVC Storage Class
+
+PVC Volume Bytes
+
+PVC Volume bytes by Container (avg)
+
+PVC Volume inodes
+
+PVC Volume inodes by Container (avg)
+
+PVC Status
+
+PV Status
+
+Throughput (read/write)
+
+Throughput by Container
+
+IOPS (read/write)
+
+IOPS by Container
+
+
+
+Energy:
+
+Energy usage (1h)
+
+Energy usage by Container (1h)
+
+
+
+For container Level:
+
+Container Optimization
+
+├── CPU Sizing & Usage
+
+│   ├── Container CPU allocation
+
+│   ├── Container CPU requests
+
+│   ├── Container CPU usage
+
+│   ├── CPU requests sizing (current vs recommended)
+
+│   ├── CPU limits sizing (current vs recommended)
+
+│   └── CPU throttling
+
+│
+
+├── Memory Sizing & Usage
+
+│   ├── Container memory allocation
+
+│   ├── Container memory requests
+
+│   ├── Container memory usage
+
+│   ├── Memory requests sizing (current vs recommended)
+
+│   ├── Memory limits sizing (current vs recommended)
+
+│   └── Memory optimization recommendation
+
+│
+
+├── Cost Allocation
+
+│   ├── CPU cost allocation
+
+│   ├── Memory cost allocation
+
+│   ├── Total cost (compute)
+
+│   ├── CPU idle cost
+
+│   ├── Memory idle cost
+
+│   └── Total idle cost
+
+│
+
+├── Prediction Models
+
+│   ├── Predict CPU usage
+
+│   ├── Predict memory usage
+
+│   └── Recommended resource sizing
+
+│
+
+└── Stability / Runtime Signals
+
+    ├── Container restarts
+
+    ├── Restart history
+
+    └── Last terminated reason
